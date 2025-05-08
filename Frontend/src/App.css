@@ -1,0 +1,29 @@
+@keyframes logo-pan-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes gradientMovement {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background: linear-gradient(
+    45deg,
+    rgba(191, 161, 74, 0.03) 0%,
+    rgba(191, 161, 74, 0.01) 25%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(191, 161, 74, 0.01) 75%,
+    rgba(191, 161, 74, 0.03) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientMovement 15s ease infinite;
+}
