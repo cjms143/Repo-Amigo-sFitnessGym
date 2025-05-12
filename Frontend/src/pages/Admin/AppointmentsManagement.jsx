@@ -31,7 +31,7 @@ function AppointmentsManagement() {
         throw new Error("Authentication token not available.");
       }
 
-      const response = await fetch(`${API_BASE_URL}/appointments`, {
+      const response = await fetch(`${API_BASE_URL}/api/appointments`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -86,7 +86,8 @@ function AppointmentsManagement() {
 
   const updateAppointmentStatus = async (id, newStatus) => {
     try {
-      const response = await fetch(`/api/appointments/${id}/status`, {
+      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const response = await fetch(`${API_BASE_URL}/api/appointments/${id}/status`, { // MODIFIED
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

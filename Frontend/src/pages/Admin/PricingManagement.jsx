@@ -52,7 +52,8 @@ function PricingManagement() {
 
   const fetchPlans = async () => {
     try {
-      const response = await fetch('/api/pricing/plans', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const response = await fetch(`${API_BASE_URL}/api/pricing/plans`, { // MODIFIED
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
@@ -78,11 +79,12 @@ function PricingManagement() {
     e.preventDefault();
     const dataToSend = { ...submittedData }; 
     console.log("[PricingManagement] Submitting plan with title:", dataToSend.title);
+    const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
 
     try {
       const url = editingPlan
-        ? `/api/pricing/plans/${editingPlan._id}`
-        : '/api/pricing/plans';
+        ? `${API_BASE_URL}/api/pricing/plans/${editingPlan._id}` // MODIFIED
+        : `${API_BASE_URL}/api/pricing/plans`; // MODIFIED
 
       const response = await fetch(url, {
         method: editingPlan ? 'PUT' : 'POST',
@@ -170,9 +172,9 @@ function PricingManagement() {
     if (!window.confirm('Are you sure you want to delete this plan? This action cannot be undone.')) {
       return;
     }
-    
+    const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
     try {
-      const response = await fetch(`/api/pricing/plans/${planId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/pricing/plans/${planId}`, { // MODIFIED
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -195,7 +197,8 @@ function PricingManagement() {
 
   const togglePlanStatus = async (plan) => {
     try {
-      const response = await fetch(`/api/pricing/plans/${plan._id}`, {
+      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const response = await fetch(`${API_BASE_URL}/api/pricing/plans/${plan._id}`, { // MODIFIED
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

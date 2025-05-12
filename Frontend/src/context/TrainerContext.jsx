@@ -35,7 +35,7 @@ export const TrainerProvider = ({ children }) => {
 
   const fetchTrainers = async () => {
     try {
-      const response = await fetch('/api/trainers');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers`); // MODIFIED
       if (!response.ok) throw new Error('Failed to fetch trainers');
       const data = await response.json();
       setAllTrainers(data);
@@ -93,7 +93,7 @@ export const TrainerProvider = ({ children }) => {
       if (!formData.has('active')) formData.append('active', 'true');
       if (!formData.has('status')) formData.append('status', 'Available');
 
-      const response = await fetch('/api/trainers', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers`, { // MODIFIED
         method: 'POST',
         headers: {
           // 'Content-Type': 'application/json', // REMOVE THIS - Browser sets it for FormData
@@ -158,7 +158,7 @@ export const TrainerProvider = ({ children }) => {
         }
       });
 
-      const response = await fetch(`/api/trainers/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}`, { // MODIFIED
         method: 'PUT',
         headers: {
           // 'Content-Type': 'application/json', // REMOVE THIS
@@ -185,7 +185,7 @@ export const TrainerProvider = ({ children }) => {
 
   const toggleTrainerStatus = async (id) => {
     try {
-      const response = await fetch(`/api/trainers/${id}/toggle-status`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}/toggle-status`, { // MODIFIED
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`
@@ -210,7 +210,7 @@ export const TrainerProvider = ({ children }) => {
 
   const deleteTrainer = async (id) => {
     try {
-      const response = await fetch(`/api/trainers/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}`, { // MODIFIED
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`

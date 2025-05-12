@@ -43,7 +43,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/auth/login', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, { // MODIFIED
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -72,7 +73,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/auth/register', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, { // MODIFIED
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -108,7 +110,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/auth/update-password', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const response = await fetch(`${API_BASE_URL}/api/auth/update-password`, { // MODIFIED
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +140,8 @@ export const AuthProvider = ({ children }) => {
     if (!token) return false;
 
     try {
-      const response = await fetch('/api/auth/me', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, { // MODIFIED
         headers: {
           Authorization: `Bearer ${token}`
         }

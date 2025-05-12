@@ -46,7 +46,7 @@ function Pricing() {
       setLoading(true);
       setError(null); // Reset error before fetching
       try {
-        const response = await fetch('/api/pricing/plans');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/pricing/plans`); // MODIFIED
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || 'Failed to fetch plans. Please try again later.');
