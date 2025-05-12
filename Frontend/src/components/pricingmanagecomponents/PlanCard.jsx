@@ -27,18 +27,12 @@ function PlanCard({
       transition={{ duration: 0.4, delay: index * 0.05 }}
       className={`relative p-6 rounded-2xl border transition-all duration-300 group isolate
         ${plan.isPopular
-          ? 'border-amber-400/70 bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-800 shadow-lg shadow-amber-500/20'
-          : 'border-neutral-700/50 bg-neutral-800/60 backdrop-blur-sm hover:border-neutral-600'
+          ? 'border-amber-400/70 bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-800 shadow-lg shadow-amber-500/20 group-hover:shadow-xl group-hover:shadow-amber-500/30'
+          : 'border-neutral-700/50 bg-neutral-800/60 backdrop-blur-sm hover:border-neutral-600 group-hover:shadow-lg group-hover:shadow-neutral-700/20'
         }
         ${!plan.active ? 'opacity-60 grayscale-[30%]' : ''}
       `}
     >
-      {/* Subtle glow for popular plans on hover */}
-      {plan.isPopular && (
-        <div className="absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl 
-                        bg-gradient-to-r from-amber-400/30 via-amber-300/30 to-yellow-500/30 blur-xl -z-10" />
-      )}
-
       {!plan.active && (
         <div className="absolute inset-0 bg-neutral-900/70 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
           <span className="text-neutral-300 font-semibold text-lg border border-neutral-600 px-4 py-2 rounded-md bg-neutral-800/70 shadow-md">Inactive</span>
@@ -92,7 +86,7 @@ function PlanCard({
           <span className="text-base text-neutral-400 font-normal">/{plan.type}</span>
         </div>
         {plan.description && (
-          <p className="text-xs text-neutral-500 min-h-[30px]">{plan.description.substring(0,100)}{plan.description.length > 100 ? '...' : ''}</p>
+          <p className="text-xs text-neutral-500 min-h-[30px] line-clamp-2">{plan.description}</p>
         )}
       </div>
 

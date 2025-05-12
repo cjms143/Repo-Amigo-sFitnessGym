@@ -1,38 +1,85 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaCalendar, FaClock, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { eachDayOfInterval, format, subDays, parseISO } from 'date-fns';
+import { eachDayOfInterval, subDays, format, parseISO } from 'date-fns';
+import { useAuth } from '../../context/AuthContext'; // Changed to named import for useAuth
 
 function AppointmentsManagement() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
   const [filterStatus, setFilterStatus] = useState('all');
+  const { token } = useAuth(); // useAuth() provides the token
 
   useEffect(() => {
-    fetchAppointments();
-  }, []);
+    if (token) { 
+      fetchAppointments();
+    } else {
+      setLoading(false);
+      setError("Authentication token not found. Please log in.");
+    }
+  }, [token, filterStatus]); // Re-fetch if token or filterStatus changes - Note: if fetchAppointments doesn't use filterStatus, remove it from deps
 
   const fetchAppointments = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch('/api/appointments', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL;
+      if (!token) {
+        throw new Error("Authentication token not available.");
+      }
+
+      const response = await fetch(`${API_BASE_URL}/appointments`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        }
+          'Authorization': `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch appointments');
+        const errData = await response.json().catch(() => ({ message: 'Failed to fetch appointments and parse error response.' }));
+        throw new Error(errData.message || 'Failed to fetch appointments');
       }
 
-      const data = await response.json();
-      setAppointments(data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching appointments:', error);
-      toast.error(error.message || 'Failed to load appointments');
+      const result = await response.json();
+      let rawAppointments = result.data;
+
+      if (!Array.isArray(rawAppointments)) {
+        console.error("API did not return an array for appointments data:", rawAppointments);
+        rawAppointments = []; // Default to empty array to prevent further errors
+      }
+
+      const processedAppointments = rawAppointments.map(app => {
+        if (!app || typeof app !== 'object') {
+          // This case should ideally not happen if the API is consistent.
+          // Returning null will allow it to be filtered out by .filter(Boolean) later.
+          console.warn("Invalid appointment item received from API:", app);
+          return null; 
+        }
+
+        let planObject = app.plan; // This is the populated plan from backend, could be null
+
+        // If plan is null (because it was deleted) or somehow an empty object from populate (very unlikely for Mongoose)
+        if (!planObject || (typeof planObject === 'object' && Object.keys(planObject).length === 0 && planObject.constructor === Object)) {
+          planObject = {
+            _id: null, // Or app.plan if you need to store the original null ID, but null is fine.
+            title: 'Plan Deleted',
+            name: 'Plan Deleted', // Consistent placeholder property
+            price: 'N/A',
+            type: 'N/A', // Add other common properties your JSX might try to access
+            // Add any other properties that your rendering logic (e.g., line 292) might try to access
+          };
+        }
+        return { ...app, plan: planObject }; // Ensure plan is always an object
+      }).filter(Boolean); // Filter out any nulls that resulted from invalid app items
+      
+      setAppointments(processedAppointments);
+
+    } catch (err) {
+      console.error("Error fetching appointments:", err);
+      setError(err.message);
+    } finally {
       setLoading(false);
     }
   };

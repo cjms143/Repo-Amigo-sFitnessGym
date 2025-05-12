@@ -1,0 +1,54 @@
+# Node.js and npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json # If you use yarn.lock, otherwise keep this if you use package-lock.json
+# yarn.lock # If you use package-lock.json, otherwise keep this if you use yarn.lock
+
+# Environment variables
+.env
+.env*.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+
+# Build output folders (common for frontend and sometimes backend)
+dist/
+build/
+out/
+public/ # If your frontend framework builds into a 'public' that's different from your source 'public'
+
+# Vercel specific
+.vercel/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE and editor directories/files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Log files
+logs/
+*.log
+
+# Test coverage
+coverage/
+lcov-report/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# If you have a local 'uploads' directory in the backend that you don't want to commit
+# (especially if you're moving to Vercel Blob or similar for production)
+# backend/uploads/
