@@ -2,9 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 // Add FaInstagram and FaFacebook
 import { FaUserCircle, FaPlus, FaTrash, FaChevronDown, FaInfoCircle, FaInstagram, FaFacebook } from 'react-icons/fa'; // Removed FaCalendarAlt if it was added
 
-// Define the base URL for your backend server
-const BACKEND_URL = 'http://localhost:5000';
-
 // Define options based on backend schema or desired values
 const specialtyOptions = [
   "Strength Training", "Yoga", "Pilates", "CrossFit", "Cardio Specialist",
@@ -313,16 +310,7 @@ function TrainerForm({
   };
 
   // Helper to determine the correct image source URL
-  const getImageUrl = (imgData) => {
-    if (!imgData) return null; // No image
-    if (typeof imgData === 'string' && imgData.startsWith('data:image')) {
-      return imgData; // It's a new base64 preview
-    }
-    if (typeof imgData === 'string') {
-      return `${BACKEND_URL}${imgData}`; // It's an existing relative path
-    }
-    return null; // Should not happen, but fallback
-  };
+  const getImageUrl = (imgData) => imgData ? `${import.meta.env.VITE_API_URL}${imgData}` : undefined;
 
   return (
     // Added form title and slightly adjusted padding/margins

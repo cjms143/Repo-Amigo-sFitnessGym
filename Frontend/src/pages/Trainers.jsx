@@ -50,6 +50,8 @@ function Trainers() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
+  // Helper to get full trainer image URL
+  const getTrainerImageUrl = (img) => img ? `${import.meta.env.VITE_API_URL}${img}` : null;
 
   if (loading) {
     return (
@@ -190,10 +192,9 @@ function Trainers() {
             <TrainerCard
               key={trainer._id}
               trainer={trainer}
-              index={index} // Pass index for stagger animation if needed inside card, or rely on grid stagger
+              index={index}
               onViewProfile={setSelectedTrainer}
-              // Apply itemVariants here if TrainerCard doesn't handle its own animation
-              // initial="hidden" animate="visible" variants={itemVariants}
+              getTrainerImageUrl={getTrainerImageUrl}
             />
           ))}
         </motion.div>
@@ -210,6 +211,7 @@ function Trainers() {
           <TrainerModal
             trainer={selectedTrainer}
             onClose={() => setSelectedTrainer(null)}
+            getTrainerImageUrl={getTrainerImageUrl}
           />
         </AnimatePresence>
       </motion.div>

@@ -77,9 +77,6 @@ function Pricing() {
     setShowFeaturesModal(true);
   };
 
-  // Helper to get full trainer image URL
-  const getTrainerImageUrl = (img) => img ? `${import.meta.env.VITE_API_URL}${img}` : null;
-
   return (
     <section 
       ref={containerRef}

@@ -11,9 +11,6 @@ const socialIconMap = {
   youtube: FaYoutube
 };
 
-// Define the base URL for your backend server
-const BACKEND_URL = 'http://localhost:5000';
-
 // Helper to display tags
 const Tag = ({ text }) => (
   <span className="px-3 py-1 text-xs rounded-full bg-[#CDAC5A]/15 text-[#CDAC5A] border border-[#CDAC5A]/30 font-medium whitespace-nowrap">
@@ -29,7 +26,7 @@ function TrainerModal({ trainer, onClose }) {
   const expertise = Array.isArray(trainer.expertise) ? trainer.expertise : (trainer.expertise ? [trainer.expertise] : []);
 
   // Construct the full image URL
-  const imageUrl = trainer.img ? `${BACKEND_URL}${trainer.img}` : `${BACKEND_URL}/assets/images/Logo.png`; // Use backend URL for fallback too
+  const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : `${import.meta.env.VITE_API_URL}/assets/images/Logo.png`; // Use backend URL for fallback too
 
   return (
     <div

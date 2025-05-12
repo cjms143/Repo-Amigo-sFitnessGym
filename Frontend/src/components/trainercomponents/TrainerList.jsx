@@ -1,9 +1,6 @@
-  import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { FaTrash, FaEdit, FaToggleOn, FaToggleOff, FaPhone, FaUser } from 'react-icons/fa';
-
-// Define the base URL for your backend server
-const BACKEND_URL = 'http://localhost:5000';
 
 function TrainerList({ trainers, onEdit, onDelete, onToggleStatus }) {
   if (!trainers || trainers.length === 0) {
@@ -13,8 +10,8 @@ function TrainerList({ trainers, onEdit, onDelete, onToggleStatus }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {trainers.map((trainer, index) => {
-        // Construct the full image URL
-        const imageUrl = trainer.img ? `${BACKEND_URL}${trainer.img}` : '/assets/images/Logo.png'; // Keep fallback relative
+        // Use import.meta.env.VITE_API_URL for image URLs
+        const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : '/assets/images/Logo.png'; // Keep fallback relative
 
         return (
           <motion.div
