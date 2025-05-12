@@ -13,6 +13,8 @@ package-lock.json # If you use yarn.lock, otherwise keep this if you use package
 .env.development
 .env.production
 .env.test
+# Ignore backend .env file
+backend/.env
 
 # Build output folders (common for frontend and sometimes backend)
 dist/
