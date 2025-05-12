@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaUserCircle, FaArrowRight, FaStar } from 'react-icons/fa';
 
 // Define the base URL for your backend server
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 // Helper function to format specialties
 const formatSpecialties = (specialties) => {
@@ -29,8 +29,8 @@ function TrainerCard({ trainer, index, onViewProfile }) {
   };
 
   const specialtiesDisplay = formatSpecialties(trainer.specialty);
-  // Construct the full image URL
-  const imageUrl = trainer.img ? `${BACKEND_URL}${trainer.img}` : null;
+  // Construct the full image URL for the trainer
+  const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : null;
 
   return (
     <motion.div
@@ -46,7 +46,7 @@ function TrainerCard({ trainer, index, onViewProfile }) {
       <div className="relative h-56 w-full overflow-hidden">
         {imageUrl ? (
           <img
-            src={imageUrl} // Use the full URL
+            src={imageUrl}
             alt={trainer.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
