@@ -224,15 +224,13 @@ function Appointment({ open, onClose, plan }) {
     setErrorMessage('');
 
     try {
-      
       let timeString = '00:00';
       if (selectedTime) {
-        
         timeString = dayjs(selectedTime).format('HH:mm');
       }
-      
+      const API_BASE = import.meta.env.VITE_API_URL || '';
       const combinedDateTime = new Date(`${formData.preferredDate}T${timeString}`);
-      const response = await fetch('/api/appointments', {
+      const response = await fetch(`${API_BASE}/api/appointments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
