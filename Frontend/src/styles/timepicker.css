@@ -1,0 +1,93 @@
+/* Custom styling for our clock-based time picker */
+
+.clock-time-picker {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* General container for the time picker if needed for positioning or max-width */
+.time-picker-container {
+  max-width: 320px; /* Adjust as needed to match the image's width */
+  margin: auto; /* Center it if it's a block element */
+  background-color: #262626; /* Match MuiPaper root background */
+  border-radius: 8px;
+}
+
+/* Ensure the clock itself doesn't have unwanted margins from Tailwind or other global styles */
+.MuiClock-root {
+  margin-bottom: 8px; /* Adjust spacing if needed, ensure it's not empty */
+}
+
+/* Additional fine-tuning if necessary */
+.MuiPickersLayout-contentWrapper {
+  background-color: #262626 !important; /* Ensure the main content area matches */
+}
+
+/* Hide the default date display part of the toolbar if it appears */
+.MuiPickersToolbar-dateContainer {
+  display: none !important;
+}
+
+/* Ensure the time container in the toolbar is prominent */
+.MuiPickersToolbar-timeContainer {
+  justify-content: center; /* Center the time and AM/PM */
+  display: flex;
+  flex-grow: 1;
+  align-items: baseline;
+}
+
+/* Animation for clock hand */
+.clock-face div[style*="transform:"] {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Selected number styling */
+.clock-face div.bg-\[\#bfa14a\] {
+  box-shadow: 0 0 8px 1px rgba(191, 161, 74, 0.4);
+  transition: all 0.2s ease;
+}
+
+/* Smooth transitions */
+.clock-time-picker button:not(:disabled),
+.clock-face div {
+  transition: all 0.15s ease-in-out;
+}
+
+.clock-time-picker button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+/* Glow effect for the clock center pin */
+.clock-face div.bg-\[\#bfa14a\] {
+  box-shadow: 0 0 10px 2px rgba(191, 161, 74, 0.5);
+}
+
+/* Animation for selected time marker */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.clock-face div.bg-\[\#bfa14a\]\/60 {
+  animation: pulse 2s infinite;
+}
+
+/* Glow effect for the hand */
+.clock-face div[style*="background: #bfa14a"] {
+  box-shadow: 0 0 5px rgba(191, 161, 74, 0.7);
+}
+
+/* Example: Ensure AM/PM buttons in toolbar are styled correctly if theme isn't enough */
+/* .MuiTimePickerToolbar-ampmSelection .MuiButtonBase-root {
+  color: #777;
+}
+.MuiTimePickerToolbar-ampmSelection .MuiButtonBase-root.Mui-selected {
+  color: #ffffff;
+} */
+
+/* If the arrow switcher for views (e.g. hours to minutes) is visible and needs hiding */
+/* .MuiTimeClock-arrowSwitcher {
+  display: none !important;
+} */

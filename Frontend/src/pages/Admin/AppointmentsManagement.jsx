@@ -321,11 +321,11 @@ function AppointmentsManagement() {
                   <div className="flex gap-4">
                     <div className="flex items-center gap-2 text-neutral-400">
                       <FaCalendar className="text-[#bfa14a]" />
-                      {new Date(appointment.preferredDate).toLocaleDateString()}
+                      {format(parseISO(appointment.preferredDate), 'M/d/yyyy')}
                     </div>
                     <div className="flex items-center gap-2 text-neutral-400">
                       <FaClock className="text-[#bfa14a]" />
-                      {new Date(appointment.createdAt).toLocaleString()}
+                      {format(parseISO(appointment.preferredDate), 'h:mm a')}
                     </div>
                   </div>
                   <div>
@@ -367,7 +367,7 @@ function AppointmentsManagement() {
 
               {appointment.message && (
                 <div className="mt-4 pt-4 border-t border-neutral-700">
-                  <p className="text-neutral-400">{appointment.message}</p>
+                  <p className="text-neutral-400 break-words">{appointment.message}</p>
                 </div>
               )}
             </motion.div>
