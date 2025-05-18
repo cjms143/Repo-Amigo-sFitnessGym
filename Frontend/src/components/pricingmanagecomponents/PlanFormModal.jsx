@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaPlus, FaStar, FaCheck, FaTrash } from 'react-icons/fa';
+import { useRef } from 'react';
 
 function PlanFormModal({
   isModalOpen,
@@ -13,26 +14,72 @@ function PlanFormModal({
   updateFeature,
   featureCategories
 }) {
+  const priceRef = useRef();
+  const titleRef = useRef();
+
   if (!isModalOpen) return null;
 
   const handlePriceChange = (e) => {
-    const raw = e.target.value;
-    // Only allow up to 6 digits before the decimal point
-    const [intPart, decPart] = raw.split('.');
-    if (intPart && intPart.length > 6) {
-      // Ignore input if integer part exceeds 6 digits
-      return;
+    let inputValue = e.target.value;
+    // Remove all non-digit and non-decimal characters except the first decimal point
+    inputValue = inputValue.replace(/[^\d.]/g, '');
+    // Only allow one decimal point
+    const firstDot = inputValue.indexOf('.');
+    if (firstDot !== -1) {
+      // Remove any additional dots
+      inputValue = inputValue.substring(0, firstDot + 1) + inputValue.substring(firstDot + 1).replace(/\./g, '');
     }
-    let num = raw === '' ? '' : Number(raw);
-    setFormData({ ...formData, price: num });
+    // Split into integer and decimal
+    let [intPart, decPart] = inputValue.split('.');
+    if (!intPart) intPart = '';
+    // Limit integer part to 6 digits
+    intPart = intPart.slice(0, 6);
+    // Format integer part with commas
+    let formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // Limit decimal part to 2 digits
+    if (decPart !== undefined) decPart = decPart.slice(0, 2);
+    // Build display value
+    let displayValue = formattedInt;
+    if (inputValue.includes('.')) {
+      displayValue += '.' + (decPart !== undefined ? decPart : '');
+    }
+    // Special case: if user types only '.', show '0.'
+    if (inputValue === '.') displayValue = '0.';
+    setFormData({ ...formData, price: displayValue });
   };
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    
+    // Validation: scroll to first empty required field
+    if (!formData.title?.trim()) {
+      if (titleRef.current) {
+        titleRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        titleRef.current.focus();
+      }
+      return;
+    }
+    if (!formData.price || formData.price === '' || formData.price === '0' || formData.price === '0.' || formData.price === '.') {
+      if (priceRef.current) {
+        priceRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        priceRef.current.focus();
+      }
+      return;
+    }
+
+    let priceToSubmit = 0;
+    if (formData.price && typeof formData.price === 'string') {
+      const cleanedPriceString = formData.price.replace(/,/g, ''); // Remove commas
+      priceToSubmit = parseFloat(cleanedPriceString);
+      if (isNaN(priceToSubmit)) {
+        priceToSubmit = 0;
+      }
+    } else if (typeof formData.price === 'number') {
+      priceToSubmit = formData.price; // Should not happen if state is always string
+    }
+
     const submissionData = {
       ...formData,
-      price: parseFloat(formData.price) || 0
+      price: priceToSubmit,
     };
     handleSubmit(e, submissionData); 
   };
@@ -78,6 +125,7 @@ function PlanFormModal({
                       className="w-full bg-neutral-700/50 border border-neutral-600 rounded-lg px-4 py-2.5
                         text-white focus:outline-none focus:ring-2 focus:ring-[#bfa14a] focus:border-[#bfa14a] transition-all"
                       required
+                      ref={titleRef}
                     />
                   </div>
                   <div>
@@ -110,21 +158,17 @@ function PlanFormModal({
                     </div>
                     <input
                       id="planPriceModal"
-                      type="number"
-                      min="0"
-                      max="999999"
-                      step="0.01"
+                      type="text"
+                      inputMode="decimal"
                       value={formData.price}
                       onChange={handlePriceChange}
                       placeholder={`Enter ${formData.type} price`}
                       className="w-full bg-neutral-700/50 border border-neutral-600 rounded-lg pl-10 pr-4 py-2.5
                         text-white focus:outline-none focus:ring-2 focus:ring-[#bfa14a] focus:border-[#bfa14a] transition-all"
                       required
+                      ref={priceRef}
                     />
                   </div>
-                 {formData.price > 999999 && (
-                  <p className="text-red-400 text-sm mt-1">Maximum price is ₱999,999</p>
-                 )}
                 </div>
 
                 {/* Description */}

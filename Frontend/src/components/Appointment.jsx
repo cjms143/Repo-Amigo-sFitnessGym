@@ -271,7 +271,7 @@ function Appointment({ open, onClose, plan }) {
     }
   };
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" style={{ overscrollBehavior: 'contain' }}>
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -301,7 +301,8 @@ function Appointment({ open, onClose, plan }) {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        {/* Make the form scrollable and set a max height */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-5 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-neutral-800" style={{ overscrollBehavior: 'contain' }}>
           {/* Form Fields - Example for Name */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
