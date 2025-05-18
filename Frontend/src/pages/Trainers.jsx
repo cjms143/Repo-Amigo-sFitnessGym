@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTrainers } from '../context/TrainerContext';
-import { FaArrowRight, FaFilter, FaTimes } from 'react-icons/fa'; // Added filter icons
+import { FaArrowRight, FaFilter, FaTimes } from 'react-icons/fa'; 
 import TrainerCard from '../components/trainercomponents/TrainerCard';
 import TrainerModal from '../components/trainercomponents/TrainerModal';
 
@@ -9,22 +9,22 @@ function Trainers() {
   const { allTrainers, loading, error } = useTrainers();
   const [selectedTrainer, setSelectedTrainer] = useState(null);
   const [filter, setFilter] = useState('all');
-  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false); // State for mobile filter menu
+  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false); 
 
-  // Only show active trainers in the public view
+  
   const activeTrainers = allTrainers.filter(trainer => trainer.active);
 
-  // Derive unique specialties from active trainers (handling the array)
+  
   const specialties = [
     'all',
     ...new Set(
       activeTrainers
-        .flatMap(trainer => trainer.specialty || []) // Flatten the arrays of specialties
-        .filter(Boolean) // Remove any null/undefined specialties
+        .flatMap(trainer => trainer.specialty || []) 
+        .filter(Boolean) 
     )
   ];
 
-  // Filter trainers based on whether their specialty array includes the filter
+  
   const filteredTrainers = filter === 'all'
     ? activeTrainers
     : activeTrainers.filter(trainer =>
@@ -33,10 +33,10 @@ function Trainers() {
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
-    setIsFilterMenuOpen(false); // Close mobile menu on selection
+    setIsFilterMenuOpen(false); 
   };
 
-  // Animation variants
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -50,7 +50,7 @@ function Trainers() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
-  // Helper to get full trainer image URL
+  
   const getTrainerImageUrl = (img) => img ? `${import.meta.env.VITE_API_URL}${img}` : null;
 
   if (loading) {
@@ -145,14 +145,14 @@ function Trainers() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 flex items-center justify-center p-4 md:hidden"
-                  onClick={() => setIsFilterMenuOpen(false)} // Close on backdrop click
+                  onClick={() => setIsFilterMenuOpen(false)} 
                 >
                   <motion.div
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: 50, opacity: 0 }}
                     className="bg-neutral-800 rounded-xl p-6 w-full max-w-sm"
-                    onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+                    onClick={(e) => e.stopPropagation()} 
                   >
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-lg font-semibold text-white">Filter by Specialty</h3>
@@ -184,8 +184,8 @@ function Trainers() {
 
         {/* Trainers Grid */}
         <motion.div
-          variants={containerVariants} // Apply stagger to the grid itself
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" // Increased gap
+          variants={containerVariants} 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" 
         >
           {/* Use itemVariants for each card */}
           {filteredTrainers.map((trainer, index) => (

@@ -115,7 +115,7 @@ function Services() {
   const handleCardKeyDown = (e, service, type) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      // Add your service selection logic here
+      
     }
   };
 
@@ -255,11 +255,11 @@ function Services() {
               >
                 {services[activeTab].map((service, index) => (
                   <motion.div
-                    key={service.title} // Assuming service.title is unique for keys
+                    key={service.title} 
                     initial={{ opacity: 0, y: 25, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.45, delay: index * 0.1, ease: "circOut" }}
-                    className="h-full" // Ensures motion.div takes full height for consistent card sizing
+                    className="h-full" 
                   >
                     {/* START: Inline Service Card Structure */}
                     <div className="bg-neutral-800/60 backdrop-blur-md rounded-2xl shadow-xl border border-neutral-700/70 overflow-hidden h-full flex flex-col group transition-all duration-300 hover:border-[#bfa14a]/60 hover:shadow-[#bfa14a]/20 hover-lift">
@@ -280,7 +280,7 @@ function Services() {
                           {service.description}
                         </p>
                         <button 
-                          onClick={() => alert(`Details for ${service.title}:\n${service.details}`)} // Placeholder action
+                          onClick={() => alert(`Details for ${service.title}:\n${service.details}`)} 
                           className="mt-auto self-start text-sm font-medium text-[#bfa14a] hover:text-[#e6c976] transition-colors duration-200 group-hover:underline flex items-center gap-1.5 hover-glow focus:outline-none"
                         >
                           Learn More 

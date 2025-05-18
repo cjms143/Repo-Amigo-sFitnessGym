@@ -26,7 +26,7 @@ function Navbar() {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80; // Height of the fixed navbar
+      const offset = 80; 
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -40,9 +40,9 @@ function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100, opacity: 0 }} // Added opacity: 0
-      animate={{ y: 0, opacity: 1 }}     // Added opacity: 1
-      transition={{ type: 'spring', stiffness: 70, damping: 25, delay: 0.3, mass: 0.5 }} // Adjusted spring params and delay
+      initial={{ y: -100, opacity: 0 }} 
+      animate={{ y: 0, opacity: 1 }}     
+      transition={{ type: 'spring', stiffness: 70, damping: 25, delay: 0.3, mass: 0.5 }} 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
         ${isScrolled
           ? 'bg-neutral-950/90 backdrop-blur-xl shadow-2xl border-b border-neutral-800/50'
@@ -53,15 +53,15 @@ function Navbar() {
           {/* Logo and Brand */}
           <motion.div
             initial={{ filter: 'none' }} 
-            animate={{ filter: 'none' }} // Default state: no glow
-            transition={{ duration: 0.25, ease: 'easeInOut' }} // General transition for filter property
+            animate={{ filter: 'none' }} 
+            transition={{ duration: 0.25, ease: 'easeInOut' }} 
             className="flex items-center gap-3 cursor-pointer"
             onClick={() => scrollToSection('home')}
           >
             <img
               src="/assets/images/Logo.png"
               alt="Amigos Fitness Gym"
-              className="h-12 w-12 lg:h-14 lg:w-14 rounded-full object-cover" // Made circular, added object-cover and fixed w/h
+              className="h-12 w-12 lg:h-14 lg:w-14 rounded-full object-cover" 
             />
             <h1 className="text-xl lg:text-2xl font-bold text-white hidden sm:block">
               Amigo's <span className="text-[#bfa14a]">Fitness Gym</span>

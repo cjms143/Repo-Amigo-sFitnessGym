@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-// Add FaInstagram and FaFacebook
-import { FaUserCircle, FaPlus, FaTrash, FaChevronDown, FaInfoCircle, FaInstagram, FaFacebook } from 'react-icons/fa'; // Removed FaCalendarAlt if it was added
 
-// Define options based on backend schema or desired values
+import { FaUserCircle, FaPlus, FaTrash, FaChevronDown, FaInfoCircle, FaInstagram, FaFacebook } from 'react-icons/fa'; 
+
+
 const specialtyOptions = [
   "Strength Training", "Yoga", "Pilates", "CrossFit", "Cardio Specialist",
   "Nutrition Coach", "Weight Loss/Gain", "Body Toning", "Circuit Training",
@@ -17,7 +17,7 @@ const expertiseOptions = [
   'Weight Loss'
 ];
 
-// Reusable Dropdown Checkbox Component
+
 const DropdownCheckbox = ({ label, options, selectedOptions, onChange, error, touched }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -29,7 +29,7 @@ const DropdownCheckbox = ({ label, options, selectedOptions, onChange, error, to
     onChange(value, checked);
   };
 
-  // Close dropdown when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -61,7 +61,7 @@ const DropdownCheckbox = ({ label, options, selectedOptions, onChange, error, to
           ${showError
             ? 'border-red-500 focus:border-red-500'
             : 'border-neutral-600 focus:border-[#bfa14a]'}`}
-        aria-invalid={showError ? "true" : "false"} // Accessibility
+        aria-invalid={showError ? "true" : "false"} 
         aria-describedby={showError ? `${label.toLowerCase().replace(/\s+/g, '-')}-error` : undefined}
       >
         <span className={selectedOptions.length === 0 ? 'text-neutral-500' : ''}>{displayValue}</span>
@@ -93,7 +93,7 @@ const DropdownCheckbox = ({ label, options, selectedOptions, onChange, error, to
   );
 };
 
-// Helper component for input fields with inline errors
+
 const InputField = ({ label, name, error, touched, children, required = false, className = '' }) => {
   const showError = error && touched;
   return (
@@ -113,19 +113,19 @@ const InputField = ({ label, name, error, touched, children, required = false, c
 };
 
 
-// --- REMOVED AvailabilityInput Component ---
-// --- REMOVED parseScheduleString function ---
-// --- REMOVED formatAvailabilityToString function ---
 
-// --- Availability Helper Functions ---
+
+
+
+
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const timeSlots = ['Morning', 'Afternoon', 'Evening']; // Example slots
+const timeSlots = ['Morning', 'Afternoon', 'Evening']; 
 
-// Parses the schedule string into an object: { Monday: ['Morning'], Tuesday: ['Afternoon', 'Evening'], ... }
+
 const parseScheduleString = (scheduleString) => {
   if (!scheduleString || typeof scheduleString !== 'string') return {};
   const availability = {};
-  daysOfWeek.forEach(day => availability[day] = []); // Initialize
+  daysOfWeek.forEach(day => availability[day] = []); 
 
   const lines = scheduleString.split('\n');
   lines.forEach(line => {
@@ -141,7 +141,7 @@ const parseScheduleString = (scheduleString) => {
   return availability;
 };
 
-// Formats the availability object back into a string
+
 const formatAvailabilityToString = (availabilityObject) => {
   return daysOfWeek
     .map(day => {
@@ -154,7 +154,7 @@ const formatAvailabilityToString = (availabilityObject) => {
     .filter(line => line !== null)
     .join('\n');
 };
-// --- End Availability Helper Functions ---
+
 
 
 function TrainerForm({
@@ -163,38 +163,38 @@ function TrainerForm({
   handleSubmit,
   resetForm,
   editingTrainer,
-  errors = {}, // Default to empty object
-  touched = {}, // Default to empty object
+  errors = {}, 
+  touched = {}, 
   handleBlur,
-  // validateAndSetError // Removed if validation is handled by parent via errors/touched
+  
 }) {
   const fileInputRef = useRef(null);
-  // State for the structured availability UI
+  
   const [availability, setAvailability] = useState(() => parseScheduleString(formData.schedule));
 
-  // Effect to parse schedule string when formData changes (e.g., editing)
+  
   useEffect(() => {
     setAvailability(parseScheduleString(formData.schedule));
   }, [formData.schedule]);
 
-  // Effect to update formData.schedule string when availability object changes
+  
   useEffect(() => {
     const newScheduleString = formatAvailabilityToString(availability);
-    // Avoid unnecessary updates if the string hasn't actually changed
+    
     if (newScheduleString !== formData.schedule) {
       setFormData(prev => ({
         ...prev,
         schedule: newScheduleString
       }));
-      // REMOVED: Trigger blur for validation if needed
-      // This might be causing issues if validation resets state indirectly.
-      // Let blur be handled by user interaction on the relevant field if possible.
-      // if (handleBlur) {
-      //   handleBlur({ target: { name: 'schedule' } });
-      // }
+      
+      
+      
+      
+      
+      
     }
-    // Do not include setFormData or handleBlur in dependency array to avoid loops
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
+    
   }, [availability]);
 
   const handleInputChange = (e) => {
@@ -212,13 +212,13 @@ function TrainerForm({
     } else {
       setFormData(prev => ({
         ...prev,
-        [name]: value // Handles schedule textarea correctly
+        [name]: value 
       }));
     }
-    // No need for validateAndSetError if parent handles validation
+    
   };
 
-  // Specific handler for dropdown checkboxes
+  
   const handleMultiSelectChange = (fieldName, optionValue, isChecked) => {
     setFormData(prev => {
       const currentSelection = Array.isArray(prev[fieldName]) ? prev[fieldName] : [];
@@ -228,7 +228,7 @@ function TrainerForm({
       } else {
         newSelection = currentSelection.filter(item => item !== optionValue);
       }
-      // Manually trigger blur for this field if needed for validation timing
+      
       if (handleBlur) {
         handleBlur({ target: { name: fieldName } });
       }
@@ -251,7 +251,7 @@ function TrainerForm({
     }
   };
 
-  // --- Qualification Handlers ---
+  
   const addQualification = () => {
     setFormData(prev => ({
       ...prev,
@@ -274,11 +274,11 @@ function TrainerForm({
       )
     }));
   };
-  // --- End Qualification Handlers ---
+  
 
-  // Helper to apply error styles
+  
   const getErrorClass = (fieldName) => {
-    // Handle nested fields like socialMedia.instagram
+    
     const fieldParts = fieldName.split('.');
     let errorValue = errors;
     let touchedValue = touched;
@@ -292,34 +292,34 @@ function TrainerForm({
       : 'border-neutral-600 focus:border-[#bfa14a]';
   };
 
-  // --- Ensure resetForm doesn't reference availabilityData ---
+  
   const handleResetForm = () => {
-    resetForm(); // Call the original reset passed via props
-    setAvailability({}); // Reset local availability state
+    resetForm(); 
+    setAvailability({}); 
   };
 
-  // Handler for the new availability selector
+  
   const handleAvailabilityChange = (day, slot) => {
     setAvailability(prev => {
       const currentSlots = prev[day] || [];
       const newSlots = currentSlots.includes(slot)
-        ? currentSlots.filter(s => s !== slot) // Remove slot
-        : [...currentSlots, slot]; // Add slot
+        ? currentSlots.filter(s => s !== slot) 
+        : [...currentSlots, slot]; 
       return { ...prev, [day]: newSlots };
     });
   };
 
-  // Helper to determine the correct image source URL
+  
   const getImageUrl = (imgData) => {
     if (!imgData) return undefined;
-    // If it's a base64 string (new upload), use as is
+    
     if (typeof imgData === 'string' && imgData.startsWith('data:image')) return imgData;
-    // Otherwise, treat as backend path (ensure single slash)
+    
     return `${import.meta.env.VITE_API_URL}${imgData.startsWith('/') ? '' : '/'}${imgData}`;
   };
 
   return (
-    // Added form title and slightly adjusted padding/margins
+    
     <form onSubmit={handleSubmit} className="p-6 md:p-8 overflow-y-auto max-h-[calc(90vh-150px)] scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-neutral-700">
       <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b border-neutral-700">
         {editingTrainer ? 'Edit Trainer Profile' : 'Add New Trainer'}
@@ -342,7 +342,7 @@ function TrainerForm({
               >
                 {formData.img ? (
                   <img
-                    src={getImageUrl(formData.img)} // Use the helper function
+                    src={getImageUrl(formData.img)} 
                     alt="Trainer preview"
                     className="w-full h-full object-cover"
                   />
@@ -461,7 +461,7 @@ function TrainerForm({
                 value={formData.bio}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-                rows="5" // Slightly larger
+                rows="5" 
                 placeholder="Brief introduction about the trainer, their philosophy, and what clients can expect..."
                 className={`w-full bg-neutral-700 border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#bfa14a] transition-colors resize-y ${getErrorClass('bio')}`}
                 aria-invalid={errors.bio && touched.bio ? "true" : "false"}
@@ -520,7 +520,7 @@ function TrainerForm({
                       onChange={(e) => updateQualification(index, 'year', e.target.value)}
                       placeholder="Year Obtained"
                       min="1950"
-                      max={new Date().getFullYear() + 1} // Allow next year
+                      max={new Date().getFullYear() + 1} 
                       className="w-full bg-neutral-600 border border-neutral-500 rounded-md px-3 py-1.5 text-sm
                           text-white focus:outline-none focus:border-[#bfa14a] transition-colors"
                     />
@@ -572,8 +572,6 @@ function TrainerForm({
                   </div>
                 ))}
               </div>
-              {/* Hidden input to potentially help with form submission if needed, but state handles it */}
-              {/* <input type="hidden" name="schedule" value={formData.schedule || ''} /> */}
               <p className="mt-2 text-xs text-neutral-500">Select available time slots for each day. This information will be displayed publicly.</p>
             </InputField>
             {/* Display the generated schedule string for debugging/confirmation (Optional) */}
@@ -599,8 +597,8 @@ function TrainerForm({
                       value={formData.socialMedia?.instagram || ''}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
-                      placeholder="https://instagram.com/username"
-                      // Added pl-10 for icon spacing
+                      placeholder="instagram.com/username"
+                      
                       className={`w-full bg-neutral-700 border rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-[#bfa14a] transition-colors ${getErrorClass('socialMedia.instagram')}`}
                       aria-invalid={errors.socialMedia?.instagram && touched.socialMedia?.instagram ? "true" : "false"}
                       aria-describedby={errors.socialMedia?.instagram && touched.socialMedia?.instagram ? "social_instagram-error" : undefined}
@@ -619,8 +617,8 @@ function TrainerForm({
                       value={formData.socialMedia?.facebook || ''}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
-                      placeholder="https://facebook.com/profile"
-                      // Added pl-10 for icon spacing
+                      placeholder="facebook.com/profile"
+                      
                       className={`w-full bg-neutral-700 border rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-[#bfa14a] transition-colors ${getErrorClass('socialMedia.facebook')}`}
                       aria-invalid={errors.socialMedia?.facebook && touched.socialMedia?.facebook ? "true" : "false"}
                       aria-describedby={errors.socialMedia?.facebook && touched.socialMedia?.facebook ? "social_facebook-error" : undefined}
@@ -639,7 +637,7 @@ function TrainerForm({
       <div className="mt-8 flex justify-end gap-4 pt-6 border-t border-neutral-700">
         <button
           type="button"
-          onClick={handleResetForm} // Use the correct reset handler
+          onClick={handleResetForm} 
           className="px-6 py-2 rounded-lg text-neutral-400 hover:text-white
             transition-colors"
         >

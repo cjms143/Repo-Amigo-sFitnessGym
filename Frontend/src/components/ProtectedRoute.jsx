@@ -1,13 +1,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Changed to useAuth
+import { useAuth } from '../context/AuthContext'; 
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth(); // Use the useAuth hook
+  const { isAuthenticated, loading } = useAuth(); 
 
   if (loading) {
-    // Optional: Show a loading spinner or similar while auth state is being determined
-    // You can replace this with a more sophisticated loading component if you have one
+    
+    
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: 'white', backgroundColor: '#181818' }}>
         Loading authentication status...
@@ -15,12 +15,12 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  if (!isAuthenticated) { // Check against isAuthenticated from useAuth
-    // User not authenticated, redirect to login page
+  if (!isAuthenticated) { 
+    
     return <Navigate to="/admin/login" replace />;
   }
 
-  return children; // User authenticated, render the protected component
+  return children; 
 };
 
 export default ProtectedRoute;

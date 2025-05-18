@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react'; // Removed useRef
+import { useState, useEffect } from 'react'; 
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaSpinner, FaCheck, FaClock } from 'react-icons/fa'; // Removed FaChevronLeft, FaChevronRight
+import { FaTimes, FaSpinner, FaCheck, FaClock } from 'react-icons/fa'; 
 import { LocalizationProvider, StaticTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import '../styles/timepicker.css';
 
-// Create a custom MUI theme to match the dark mode styling from the image
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#bfa14a', // Gold color for accents
+      main: '#bfa14a', 
     },
     background: {
-      paper: '#1f1f1f', // Dark background for the picker
+      paper: '#1f1f1f', 
       default: '#121212',
     },
     text: {
@@ -27,49 +27,49 @@ const darkTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: '#262626', // Main background of the picker dialog
+          backgroundColor: '#262626', 
           borderRadius: '8px',
           boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
         },
       },
     },
-    MuiPickersToolbar: { // Consolidated and corrected
+    MuiPickersToolbar: { 
       styleOverrides: {
         root: {
-          backgroundColor: '#1e1e1e', // Header background
+          backgroundColor: '#1e1e1e', 
           padding: '16px',
           borderBottom: '1px solid #333',
         },
         content: {
-          // Styles for the digital time display container
-          '& .MuiTypography-h3': { // Targets the hour display
+          
+          '& .MuiTypography-h3': { 
             fontSize: '2.8rem',
             fontWeight: 'bold',
             color: '#ffffff',
           },
-          '& .MuiTypography-h4': { // Targets the minute display
+          '& .MuiTypography-h4': { 
             fontSize: '2.8rem',
             fontWeight: 'bold',
             color: '#ffffff',
           },
-          '& .MuiTimePickerToolbar-separator': { // Separator ":"
+          '& .MuiTimePickerToolbar-separator': { 
             fontSize: '2.8rem',
             color: '#ffffff',
             margin: '0 2px',
           }
         },
-        // Styles for AM/PM buttons in the toolbar (header)
+        
         ampmSelection: { 
             marginRight: '0px',
-            marginLeft: '8px', // Space between time and AM/PM
+            marginLeft: '8px', 
         },
-        ampmLabel: { // Individual AM/PM button in toolbar
-            fontSize: '0.9rem', // Adjust if too large for header
-            padding: '4px 6px', // Adjust padding
-            color: '#777', // Unselected AM/PM
+        ampmLabel: { 
+            fontSize: '0.9rem', 
+            padding: '4px 6px', 
+            color: '#777', 
             border: '1px solid transparent',
             '&.Mui-selected': {
-                color: '#ffffff', // Selected AM/PM
+                color: '#ffffff', 
                 fontWeight: 'bold',
             },
         },
@@ -77,7 +77,7 @@ const darkTheme = createTheme({
     },
     MuiTypography: {
       styleOverrides: {
-        overline: { // "SELECT TIME" text
+        overline: { 
           color: '#aaaaaa',
           fontSize: '0.75rem',
           textTransform: 'uppercase',
@@ -109,18 +109,18 @@ const darkTheme = createTheme({
           backgroundColor: '#bfa14a', 
           width: '6px',
           height: '6px',
-          zIndex: 13, // Pin is the topmost small element
+          zIndex: 13, 
         },
         number: {
           color: '#e0e0e0',
           fontSize: '1rem',
-          zIndex: 1, // Base z-index for numbers
+          zIndex: 1, 
           '&.Mui-selected': {
             backgroundColor: '#bfa14a',
-            color: '#ffffff', // White text for selected number
+            color: '#ffffff', 
             fontWeight: 'bold',
             boxShadow: '0 0 10px 2px rgba(191, 161, 74, 0.5)',
-            zIndex: 12, // Selected number (bg and text) above thumb
+            zIndex: 12, 
           },
           '&:hover': {
             backgroundColor: 'rgba(191, 161, 74, 0.2)',
@@ -130,14 +130,14 @@ const darkTheme = createTheme({
     },
     MuiClockPointer: {
       styleOverrides: {
-        root: { // The hand itself
+        root: { 
           backgroundColor: '#bfa14a', 
           width: '2px',
-          zIndex: 10, // Hand below thumb and selected number
+          zIndex: 10, 
           borderRight: '0.5px solid rgba(0, 0, 0, 0.1)',
           borderLeft: '0.5px solid rgba(0, 0, 0, 0.1)',
         },
-        thumb: { // The circle at the tip of the hand
+        thumb: { 
           backgroundColor: '#bfa14a', 
           borderColor: 'rgba(0, 0, 0, 0.2)',
           borderWidth: '1px',
@@ -145,7 +145,7 @@ const darkTheme = createTheme({
           height: '10px',
           left: 'calc(50% - 5px)',
           top: 'calc(0% - 5px)',
-          zIndex: 11, // Thumb below selected number, but above the hand line
+          zIndex: 11, 
         },
       },
     },
@@ -153,10 +153,10 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           padding: '8px 16px',
-          backgroundColor: '#1e1e1e', // Footer background
+          backgroundColor: '#1e1e1e', 
           borderTop: '1px solid #333',
-          '& .MuiButton-root': { // Target CANCEL and OK buttons
-            color: '#3ea6ff', // Blueish color from image
+          '& .MuiButton-root': { 
+            color: '#3ea6ff', 
             textTransform: 'uppercase',
             fontWeight: 'medium',
             '&:hover': {
@@ -166,20 +166,20 @@ const darkTheme = createTheme({
         },
       },
     },
-    // If there are specific arrow buttons for hour/minute navigation visible in the image
-    // that are part of MUI, they might be MuiIconButton.
+    
+    
     MuiIconButton: {
         styleOverrides: {
             root: {
-                // Example: if arrows are gold
-                // color: '#bfa14a', 
+                
+                
             }
         }
     }
   },
 });
 
-// Removed the entire CustomTimePicker component and its constants (CLOCK_RADIUS, etc.)
+
 
 function Appointment({ open, onClose, plan }) {
   const [formData, setFormData] = useState({
@@ -190,44 +190,44 @@ function Appointment({ open, onClose, plan }) {
     preferredTime: '',
     message: ''
   });
-  const [selectedTime, setSelectedTime] = useState(dayjs()); // Initialize with dayjs object
-  const [formErrors, setFormErrors] = useState({}); // Added for field-specific errors
+  const [selectedTime, setSelectedTime] = useState(dayjs()); 
+  const [formErrors, setFormErrors] = useState({}); 
 
-  const [status, setStatus] = useState('idle'); // idle, submitting, success, error
+  const [status, setStatus] = useState('idle'); 
   const [errorMessage, setErrorMessage] = useState('');
 
   if (!open) return null;
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Frontend Validation
+    
     const errors = {};
     if (!formData.phone.match(/^(\+?\d{1,3}[- ]?)?\d{10}$/) && !formData.phone.match(/^\d{3}[- ]?\d{3}[- ]?\d{4}$/)) {
       errors.phone = 'Invalid phone number format. Expected 10 digits, or XXX-XXX-XXXX.';
     }
     
-    // Time validation - ensure time is selected if using the new time picker
+    
     if (!selectedTime) {
       errors.time = 'Please select a preferred time for your session.';
     }
     
-    // Add other frontend validations here if needed
+    
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
-      setStatus('idle'); // Keep status idle to show validation errors
+      setStatus('idle'); 
       return;
     }
-    setFormErrors({}); // Clear previous errors
+    setFormErrors({}); 
 
     setStatus('submitting');
     setErrorMessage('');
 
     try {
-      // Format the time from the MUI time picker with dayjs
+      
       let timeString = '00:00';
       if (selectedTime) {
-        // Ensure selectedTime is a dayjs object before formatting
+        
         timeString = dayjs(selectedTime).format('HH:mm');
       }
       
@@ -241,7 +241,7 @@ function Appointment({ open, onClose, plan }) {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          preferredDate: combinedDateTime.toISOString(), // Send combined date and time
+          preferredDate: combinedDateTime.toISOString(), 
           message: formData.message,
           planId: plan._id
         })
@@ -260,10 +260,10 @@ function Appointment({ open, onClose, plan }) {
           email: '',
           phone: '',
           preferredDate: '',
-          preferredTime: '', // Reset preferredTime
+          preferredTime: '', 
           message: ''
         });
-        setSelectedTime(null); // Reset selected time
+        setSelectedTime(null); 
       }, 2000);
     } catch (error) {
       setStatus('error');
@@ -390,7 +390,7 @@ function Appointment({ open, onClose, plan }) {
               <ThemeProvider theme={darkTheme}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <StaticTimePicker
-                    ampm={true} // Use AM/PM format
+                    ampm={true} 
                     value={selectedTime}
                     onChange={(newTime) => {
                       setSelectedTime(newTime);
@@ -399,30 +399,30 @@ function Appointment({ open, onClose, plan }) {
                       }
                     }}
                     disabled={status === 'submitting' || status === 'success'}
-                    displayStaticWrapperAs="desktop" // Ensures it's not wrapped in a Paper by default if not needed
-                                                    // but we style MuiPaper anyway for the main container
+                    displayStaticWrapperAs="desktop" 
+                                                    
                     slotProps={{
                       toolbar: {
-                        // toolbarTitle: "SELECT TIME", // Already handled by MuiTypography overline
-                        hidden: false, // Ensure toolbar is visible
+                        
+                        hidden: false, 
                       },
                       actionBar: {
-                        actions: [], // Remove all actions from the action bar
+                        actions: [], 
                       },
                     }}
                     sx={{
-                        // Ensure the picker takes full width of its container
+                        
                         width: '100%', 
                         '& .MuiDialogActions-root': {
-                            // Already styled in theme components
+                            
                         },
                         '& .MuiPickersToolbar-root': {
-                            // Already styled in theme components
+                            
                         },
                         '& .MuiClock-root': {
-                            // Already styled in theme components
+                            
                         },
-                        // Add any other instance-specific sx props if needed
+                        
                     }}
                   />
                 </LocalizationProvider>

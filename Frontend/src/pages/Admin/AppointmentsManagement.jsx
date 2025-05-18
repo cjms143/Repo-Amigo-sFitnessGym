@@ -4,14 +4,14 @@ import { FaCalendar, FaClock, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa
 import { toast } from 'react-hot-toast';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { eachDayOfInterval, subDays, format, parseISO } from 'date-fns';
-import { useAuth } from '../../context/AuthContext'; // Changed to named import for useAuth
+import { useAuth } from '../../context/AuthContext'; 
 
 function AppointmentsManagement() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
   const [filterStatus, setFilterStatus] = useState('all');
-  const { token } = useAuth(); // useAuth() provides the token
+  const { token } = useAuth(); 
 
   useEffect(() => {
     if (token) { 
@@ -20,7 +20,7 @@ function AppointmentsManagement() {
       setLoading(false);
       setError("Authentication token not found. Please log in.");
     }
-  }, [token, filterStatus]); // Re-fetch if token or filterStatus changes - Note: if fetchAppointments doesn't use filterStatus, remove it from deps
+  }, [token, filterStatus]); 
 
   const fetchAppointments = async () => {
     setLoading(true);
@@ -47,32 +47,32 @@ function AppointmentsManagement() {
 
       if (!Array.isArray(rawAppointments)) {
         console.error("API did not return an array for appointments data:", rawAppointments);
-        rawAppointments = []; // Default to empty array to prevent further errors
+        rawAppointments = []; 
       }
 
       const processedAppointments = rawAppointments.map(app => {
         if (!app || typeof app !== 'object') {
-          // This case should ideally not happen if the API is consistent.
-          // Returning null will allow it to be filtered out by .filter(Boolean) later.
+          
+          
           console.warn("Invalid appointment item received from API:", app);
           return null; 
         }
 
-        let planObject = app.plan; // This is the populated plan from backend, could be null
+        let planObject = app.plan; 
 
-        // If plan is null (because it was deleted) or somehow an empty object from populate (very unlikely for Mongoose)
+        
         if (!planObject || (typeof planObject === 'object' && Object.keys(planObject).length === 0 && planObject.constructor === Object)) {
           planObject = {
-            _id: null, // Or app.plan if you need to store the original null ID, but null is fine.
+            _id: null, 
             title: 'Plan Deleted',
-            name: 'Plan Deleted', // Consistent placeholder property
+            name: 'Plan Deleted', 
             price: 'N/A',
-            type: 'N/A', // Add other common properties your JSX might try to access
-            // Add any other properties that your rendering logic (e.g., line 292) might try to access
+            type: 'N/A', 
+            
           };
         }
-        return { ...app, plan: planObject }; // Ensure plan is always an object
-      }).filter(Boolean); // Filter out any nulls that resulted from invalid app items
+        return { ...app, plan: planObject }; 
+      }).filter(Boolean); 
       
       setAppointments(processedAppointments);
 
@@ -86,8 +86,8 @@ function AppointmentsManagement() {
 
   const updateAppointmentStatus = async (id, newStatus) => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
-      const response = await fetch(`${API_BASE_URL}/api/appointments/${id}/status`, { // MODIFIED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
+      const response = await fetch(`${API_BASE_URL}/api/appointments/${id}/status`, { 
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -123,17 +123,17 @@ function AppointmentsManagement() {
     filterStatus === 'all' ? true : appointment.status === filterStatus
   );
 
-  // --- Start Data Preparation for Charts ---
+  
   const appointmentStatusData = [
     { name: 'Pending', value: appointments.filter(a => a.status === 'pending').length },
     { name: 'Confirmed', value: appointments.filter(a => a.status === 'confirmed').length },
     { name: 'Cancelled', value: appointments.filter(a => a.status === 'cancelled').length },
-  ].filter(data => data.value > 0); // Filter out statuses with 0 appointments
+  ].filter(data => data.value > 0); 
 
   const COLORS = {
-    Pending: '#FFBB28', // Yellow
-    Confirmed: '#00C49F', // Green
-    Cancelled: '#FF8042', // Red
+    Pending: '#FFBB28', 
+    Confirmed: '#00C49F', 
+    Cancelled: '#FF8042', 
   };
 
   const last7Days = eachDayOfInterval({
@@ -144,18 +144,18 @@ function AppointmentsManagement() {
   const appointmentsLast7Days = last7Days.map(day => {
     const formattedDate = format(day, 'MMM dd');
     const count = appointments.filter(a => {
-      // Ensure createdAt is valid and parseISO can handle it
+      
       try {
         const appointmentDate = parseISO(a.createdAt);
         return format(appointmentDate, 'yyyy-MM-dd') === format(day, 'yyyy-MM-dd');
       } catch (e) {
-        // console.warn(\`Invalid date format for appointment createdAt: ${a.createdAt}\`);
+        
         return false;
       }
     }).length;
     return { date: formattedDate, count };
   });
-  // --- End Data Preparation for Charts ---
+  
 
 
   if (loading) {

@@ -2,39 +2,38 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTrainers } from '../../context/TrainerContext';
 import { FaStar, FaChartLine, FaUserCircle, FaTimes, FaUser, FaToggleOn } from 'react-icons/fa';
-import TrainerList from '../../components/trainercomponents/TrainerList'; // Import TrainerList
-import TrainerForm from '../../components/trainercomponents/TrainerForm'; // Import TrainerForm
+import TrainerList from '../../components/trainercomponents/TrainerList'; 
+import TrainerForm from '../../components/trainercomponents/TrainerForm'; 
 
 function AdminManagement() {
   const { allTrainers, addTrainer, updateTrainer, deleteTrainer, toggleTrainerStatus, loading, error } = useTrainers();
   const [editingTrainer, setEditingTrainer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Initial form state including new fields
   const initialFormData = {
     name: '',
     email: '',
     phone: '',
     specialty: '',
     experience: '',
-    qualifications: [], // Changed from certifications to qualifications array
-    expertise: [], // Added expertise field
+    qualifications: [],
+    expertise: [],
     bio: '',
     schedule: '',
     img: '',
     socialMedia: {
       instagram: '',
       facebook: ''
-      // Add other social platforms if needed
+      
     },
-    active: true // Default to active when adding
+    active: true 
   };
 
   const [formData, setFormData] = useState(initialFormData);
   const [formErrors, setFormErrors] = useState({});
   const [formTouched, setFormTouched] = useState({});
 
-  // --- Validation Logic ---
+  
   const validateField = (name, value) => {
     switch (name) {
       case 'name':
@@ -46,11 +45,11 @@ function AdminManagement() {
           : '';
       case 'phone':
          if (!value?.trim()) return 'Phone is required';
-         // Basic phone validation, adjust regex as needed for specific formats
+         
          return !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,10}$/.test(value)
            ? 'Invalid phone number format'
            : '';
-      // Add validation for other required fields if necessary
+      
       default:
         return '';
     }
@@ -73,10 +72,10 @@ function AdminManagement() {
     const newErrors = {};
     const newTouched = {};
 
-    // Validate required fields
+    
     const requiredFields = ['name', 'email', 'phone'];
     requiredFields.forEach(key => {
-       newTouched[key] = true; // Mark as touched for immediate feedback
+       newTouched[key] = true; 
        const error = validateField(key, formData[key]);
        if (error) {
          newErrors[key] = error;
@@ -84,26 +83,26 @@ function AdminManagement() {
        }
     });
 
-    // Optionally validate fields within qualifications array if needed
-    // formData.qualifications?.forEach((qual, index) => { ... });
+    
+    
 
     setFormTouched(newTouched);
     setFormErrors(newErrors);
-    return !hasErrors; // Return true if form is valid
+    return !hasErrors; 
   };
-  // --- End Validation Logic ---
+  
 
 
-  // --- Form Handling ---
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
       console.log("Form validation failed", formErrors);
-      return; // Stop submission if validation fails
+      return; 
     }
 
-    // Ensure expertise is an array of strings
+    
     const dataToSubmit = {
       ...formData,
       expertise: Array.isArray(formData.expertise) ? formData.expertise : (formData.expertise || '').split(',').map(s => s.trim()).filter(Boolean)
@@ -120,16 +119,16 @@ function AdminManagement() {
 
   const handleEdit = (trainer) => {
     setEditingTrainer(trainer);
-    // Ensure qualifications and expertise are arrays when setting form data
+    
     setFormData({
-      ...initialFormData, // Start with initial structure
+      ...initialFormData, 
       ...trainer,
       qualifications: Array.isArray(trainer.qualifications) ? trainer.qualifications : [],
       expertise: Array.isArray(trainer.expertise) ? trainer.expertise : [],
       socialMedia: trainer.socialMedia || { instagram: '', facebook: '' }
     });
-    setFormErrors({}); // Clear previous errors
-    setFormTouched({}); // Clear touched status
+    setFormErrors({}); 
+    setFormTouched({}); 
     setIsModalOpen(true);
   };
 
@@ -141,7 +140,7 @@ function AdminManagement() {
 
   const handleAddNew = () => {
     setEditingTrainer(null);
-    setFormData(initialFormData); // Reset to initial state for adding
+    setFormData(initialFormData); 
     setFormErrors({});
     setFormTouched({});
     setIsModalOpen(true);
@@ -154,9 +153,9 @@ function AdminManagement() {
     setFormTouched({});
     setIsModalOpen(false);
   };
-  // --- End Form Handling ---
+  
 
-  // Calculate stats safely
+  
   const activeTrainersCount = allTrainers?.filter(t => t.active).length || 0;
   const seniorTrainersCount = allTrainers?.filter(t => parseInt(t.experience) >= 5).length || 0;
   const totalExperience = allTrainers?.reduce((acc, curr) => acc + parseInt(curr.experience || 0), 0) || 0;
@@ -191,7 +190,7 @@ function AdminManagement() {
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={handleAddNew} // Use handleAddNew
+            onClick={handleAddNew} 
             className="px-6 py-3 bg-[#bfa14a] text-neutral-900 rounded-xl font-semibold
               hover:bg-[#CDAC5A] transition-all duration-300 flex items-center gap-2"
           >
@@ -275,7 +274,7 @@ function AdminManagement() {
                       </p>
                     </div>
                     <button
-                      onClick={resetFormAndCloseModal} // Use combined reset and close
+                      onClick={resetFormAndCloseModal} 
                       className="text-neutral-400 hover:text-white transition-colors p-1 rounded-full hover:bg-neutral-700"
                       title="Close"
                     >
@@ -289,12 +288,12 @@ function AdminManagement() {
                   formData={formData}
                   setFormData={setFormData}
                   handleSubmit={handleSubmit}
-                  resetForm={resetFormAndCloseModal} // Pass the combined function
+                  resetForm={resetFormAndCloseModal} 
                   editingTrainer={editingTrainer}
                   errors={formErrors}
                   touched={formTouched}
                   handleBlur={handleBlur}
-                  validateAndSetError={validateAndSetError} // Pass down validation setter
+                  validateAndSetError={validateAndSetError} 
                 />
               </motion.div>
             </div>

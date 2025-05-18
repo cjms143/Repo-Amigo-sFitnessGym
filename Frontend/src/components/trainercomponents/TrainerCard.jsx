@@ -2,16 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaUserCircle, FaArrowRight, FaStar } from 'react-icons/fa';
 
-// Define the base URL for your backend server
+
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 
-// Helper function to format specialties
+
 const formatSpecialties = (specialties) => {
   if (!Array.isArray(specialties) || specialties.length === 0) {
-    return 'General Fitness'; // Default or placeholder
+    return 'General Fitness'; 
   }
-  // Join with a separator, limit the number shown if needed
-  return specialties.slice(0, 3).join(' • '); // Show up to 3 specialties
+  
+  return specialties.slice(0, 3).join(' • '); 
 };
 
 function TrainerCard({ trainer, index, onViewProfile }) {
@@ -21,7 +21,7 @@ function TrainerCard({ trainer, index, onViewProfile }) {
       opacity: 1,
       y: 0,
       transition: {
-        delay: index * 0.1, // Stagger animation
+        delay: index * 0.1, 
         duration: 0.5,
         ease: "easeOut"
       }
@@ -29,7 +29,7 @@ function TrainerCard({ trainer, index, onViewProfile }) {
   };
 
   const specialtiesDisplay = formatSpecialties(trainer.specialty);
-  // Construct the full image URL for the trainer (ensure single slash)
+  
   const imagePath = trainer.img || '';
   const imageUrl = imagePath
     ? `${import.meta.env.VITE_API_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`
@@ -40,7 +40,7 @@ function TrainerCard({ trainer, index, onViewProfile }) {
       variants={cardVariants}
       initial="hidden"
       animate="visible"
-      whileHover={{ y: -8, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }} // Enhanced hover effect
+      whileHover={{ y: -8, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }} 
       className="bg-neutral-800/50 border border-neutral-700 rounded-xl overflow-hidden
                  shadow-lg transition-all duration-300 group cursor-pointer flex flex-col"
       onClick={() => onViewProfile(trainer)}

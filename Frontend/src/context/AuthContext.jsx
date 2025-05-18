@@ -43,8 +43,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, { // MODIFIED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -73,8 +73,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
-      const response = await fetch(`${API_BASE_URL}/api/auth/register`, { // MODIFIED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -110,8 +110,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
-      const response = await fetch(`${API_BASE_URL}/api/auth/update-password`, { // MODIFIED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
+      const response = await fetch(`${API_BASE_URL}/api/auth/update-password`, { 
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -140,8 +140,8 @@ export const AuthProvider = ({ children }) => {
     if (!token) return false;
 
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
-      const response = await fetch(`${API_BASE_URL}/api/auth/me`, { // MODIFIED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, { 
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -159,7 +159,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Check auth status on mount and token change
+  
   useEffect(() => {
     if (token) {
       checkAuthStatus();

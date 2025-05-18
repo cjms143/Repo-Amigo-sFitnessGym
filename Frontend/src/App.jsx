@@ -19,7 +19,7 @@ import { AuthProvider } from './context/AuthContext';
 import { TrainerProvider } from './context/TrainerContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Scroll to top on route change
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -28,13 +28,13 @@ function ScrollToTop() {
   return null;
 }
 
-// Main App Component
+
 function App() {
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Animation duration
-      once: true, // Whether animation should happen only once - while scrolling down
-      mirror: false, // Whether elements should animate out while scrolling past them
+      duration: 1000, 
+      once: true, 
+      mirror: false, 
     });
   }, []);
 

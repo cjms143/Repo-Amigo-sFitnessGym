@@ -13,14 +13,14 @@ function PricingManagement() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPlan, setEditingPlan] = useState(null);
-  const [sortBy, setSortBy] = useState('price'); // 'price' or 'title'
-  const [filterActive, setFilterActive] = useState('all'); // 'all', 'active', 'inactive'
-  const [searchTerm, setSearchTerm] = useState(''); // New state for search
+  const [sortBy, setSortBy] = useState('price'); 
+  const [filterActive, setFilterActive] = useState('all'); 
+  const [searchTerm, setSearchTerm] = useState(''); 
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    type: 'monthly', // Default type
-    price: 0, // Single price field
+    type: 'monthly', 
+    price: 0, 
     features: [],
     isPopular: false,
     availability: 'always',
@@ -52,8 +52,8 @@ function PricingManagement() {
 
   const fetchPlans = async () => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
-      const response = await fetch(`${API_BASE_URL}/api/pricing/plans`, { // MODIFIED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
+      const response = await fetch(`${API_BASE_URL}/api/pricing/plans`, { 
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ function PricingManagement() {
       }
       
       const data = await response.json();
-      setPlans(Array.isArray(data) ? data : []); // Ensure plans is always an array
+      setPlans(Array.isArray(data) ? data : []); 
       setLoading(false);
     } catch (error) {
       console.error('Error fetching plans:', error);
@@ -79,12 +79,12 @@ function PricingManagement() {
     e.preventDefault();
     const dataToSend = { ...submittedData }; 
     console.log("[PricingManagement] Submitting plan with title:", dataToSend.title);
-    const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+    const API_BASE_URL = import.meta.env.VITE_API_URL; 
 
     try {
       const url = editingPlan
-        ? `${API_BASE_URL}/api/pricing/plans/${editingPlan._id}` // MODIFIED
-        : `${API_BASE_URL}/api/pricing/plans`; // MODIFIED
+        ? `${API_BASE_URL}/api/pricing/plans/${editingPlan._id}` 
+        : `${API_BASE_URL}/api/pricing/plans`; 
 
       const response = await fetch(url, {
         method: editingPlan ? 'PUT' : 'POST',
@@ -106,7 +106,7 @@ function PricingManagement() {
       if (!response.ok) {
         const errorData = await response.json();
         const err = new Error(errorData.message || 'Failed to save plan');
-        err.data = errorData; // Attach full error data from backend
+        err.data = errorData; 
         throw err;
       }
 
@@ -117,22 +117,22 @@ function PricingManagement() {
       fetchPlans();
     } catch (error) {
       console.error('Frontend Error saving plan (raw error object):', error);
-      let detailedMessage = 'Failed to save plan. Please check console for details.'; // Default generic
+      let detailedMessage = 'Failed to save plan. Please check console for details.'; 
       let backendErrorDetailsLog = 'No specific backend error details available for logging.';
 
-      if (error.data) { // error.data is the parsed JSON from backend response
+      if (error.data) { 
         console.error('Frontend: Parsed backend error data (error.data):', error.data);
-        detailedMessage = error.data.message || error.message || 'Failed to save plan.'; // Use backend's primary message
+        detailedMessage = error.data.message || error.message || 'Failed to save plan.'; 
 
-        // Attempt to get more specific conflict information for logging and potentially for the user
-        if (error.data.error) { // This is the raw error.message from backend's catch block (e.g., MongoDB's E11000 string)
+        
+        if (error.data.error) { 
             backendErrorDetailsLog = `Backend technical error: ${error.data.error}`;
             console.error('Frontend: Backend raw error message (error.data.error):', error.data.error);
 
-            // If it's a duplicate key error, make the user message more specific
+            
             if (error.data.error.includes('E11000')) {
                 detailedMessage = 'Error: A plan with this title (or other unique field) likely already exists. The backend logs will have the exact field.';
-                // Try to extract the duplicate key from the raw message for better logging
+                
                 const match = error.data.error.match(/dup key: ({.*?})/);
                 if (match && match[1]) {
                     backendErrorDetailsLog += ` Conflicting key from raw message: ${match[1]}`;
@@ -141,23 +141,23 @@ function PricingManagement() {
             }
         }
 
-        // This was the previous logic for keyValue, which gave {name: null}
-        // We keep it for logging if it ever provides something else.
+        
+        
         if (error.data.keyValue && Object.keys(error.data.keyValue).length > 0) {
             console.error("Frontend: Backend conflict details (error.data.keyValue):", error.data.keyValue);
-            if (error.data.keyValue.name !== null) { // Avoid showing "{name:null}" to user
+            if (error.data.keyValue.name !== null) { 
                  detailedMessage += ` (Conflict on: ${JSON.stringify(error.data.keyValue)})`;
             }
         }
 
-        // Specifically handle structured validation errors if they are present
+        
         if (error.data.errors) {
             detailedMessage = `Validation Error: ${Object.values(error.data.errors).map(e_1 => e_1.message).join(', ')}`;
             backendErrorDetailsLog = `Validation errors: ${JSON.stringify(error.data.errors)}`;
         }
 
       } else {
-        // If error.data is not present, use the general error.message from the fetch API or similar
+        
         detailedMessage = error.message || 'An unexpected error occurred.';
         backendErrorDetailsLog = `General frontend error: ${error.toString()}`;
       }
@@ -172,9 +172,9 @@ function PricingManagement() {
     if (!window.confirm('Are you sure you want to delete this plan? This action cannot be undone.')) {
       return;
     }
-    const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+    const API_BASE_URL = import.meta.env.VITE_API_URL; 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/pricing/plans/${planId}`, { // MODIFIED
+      const response = await fetch(`${API_BASE_URL}/api/pricing/plans/${planId}`, { 
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -197,22 +197,22 @@ function PricingManagement() {
 
   const togglePlanStatus = async (plan) => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
-      const response = await fetch(`${API_BASE_URL}/api/pricing/plans/${plan._id}`, { // MODIFIED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
+      const response = await fetch(`${API_BASE_URL}/api/pricing/plans/${plan._id}`, { 
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-          ...plan, // Send the whole plan object
-          price: plan.price, // Ensure price is sent as a number
+          ...plan, 
+          price: plan.price, 
           active: !plan.active,
           features: plan.features.map(feature => ({
             text: feature.text,
             category: feature.category,
             highlight: feature.highlight,
-            description: feature.description // Ensure description is passed
+            description: feature.description 
           }))
         })
       });
@@ -234,7 +234,7 @@ function PricingManagement() {
     setEditingPlan(plan);
     setFormData({
       ...plan,
-      price: plan.price || 0, // Ensure price is a number, default to 0 if undefined
+      price: plan.price || 0, 
       features: [...plan.features]
     });
     setIsModalOpen(true);
@@ -245,7 +245,7 @@ function PricingManagement() {
       title: '',
       description: '',
       type: 'monthly',
-      price: 0, // Reset single price field
+      price: 0, 
       features: [],
       isPopular: false,
       availability: 'always',
@@ -286,7 +286,7 @@ function PricingManagement() {
     if (!Array.isArray(plansToSort)) return [];
     return [...plansToSort].sort((a, b) => {
       if (sortBy === 'price') {
-        // Sort by the single price field
+        
         return (a.price || 0) - (b.price || 0); 
       }
       return a.title.localeCompare(b.title);
@@ -460,8 +460,8 @@ function PricingManagement() {
           isModalOpen={isModalOpen}
           onClose={() => {
             setIsModalOpen(false);
-            setEditingPlan(null); // Ensure editing state is cleared
-            resetForm(); // Ensure form data is cleared
+            setEditingPlan(null); 
+            resetForm(); 
           }}
           editingPlan={editingPlan}
           formData={formData}

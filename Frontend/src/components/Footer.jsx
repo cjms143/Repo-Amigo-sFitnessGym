@@ -49,7 +49,7 @@ function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://facebook.com"
+                href="facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-neutral-800 text-neutral-400 hover:bg-[#bfa14a] hover:text-neutral-900
@@ -58,7 +58,7 @@ function Footer() {
                 <FaFacebook size={20} />
               </a>
               <a
-                href="https://instagram.com"
+                href="instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-neutral-800 text-neutral-400 hover:bg-[#bfa14a] hover:text-neutral-900
@@ -67,7 +67,7 @@ function Footer() {
                 <FaInstagram size={20} />
               </a>
               <a
-                href="https://twitter.com"
+                href="twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-neutral-800 text-neutral-400 hover:bg-[#bfa14a] hover:text-neutral-900
@@ -151,7 +151,7 @@ function Footer() {
               </li>
               <li className="pt-4">
                 <button
-                  onClick={() => window.open('https://maps.google.com', '_blank')}
+                  onClick={() => window.open('maps.google.com', '_blank')}
                   className="px-6 py-3 bg-neutral-800 text-white rounded-lg hover:bg-[#bfa14a] hover:text-neutral-900
                     transition-colors inline-flex items-center gap-2"
                 >

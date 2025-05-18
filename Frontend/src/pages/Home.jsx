@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform, animate } from 'framer-motion'; // Added animate import
+import { motion, useScroll, useTransform, animate } from 'framer-motion'; 
 import { FaDumbbell, FaArrowRight, FaPlay } from 'react-icons/fa';
 import { useInView } from 'react-intersection-observer';
 import '../styles/animations.css';
 
-// Helper for count-up animation
+
 function AnimatedNumber({ value }) {
   const [currentValue, setCurrentValue] = useState(0);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
@@ -32,7 +32,7 @@ const cardImages = [
 
 function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isFanned, setIsFanned] = useState(false); // State for card fan animation
+  const [isFanned, setIsFanned] = useState(false); 
   const containerRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -72,44 +72,44 @@ function Home() {
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Enhanced Background Circles */}
-        {[...Array(6)].map((_, i) => { // Increased to 6 circles
-          const size = 250 + Math.random() * 350; // Adjusted size range
-          const duration = 8 + Math.random() * 7; // Slower, more varied pulse duration
+        {[...Array(6)].map((_, i) => { 
+          const size = 250 + Math.random() * 350; 
+          const duration = 8 + Math.random() * 7; 
           const delay = Math.random() * 3;
           return (
             <motion.div
               key={i}
-              className="absolute rounded-full" // Removed opacity-10, will be handled by gradient
+              className="absolute rounded-full" 
               initial={{
-                x: `${Math.random() * 100 - 50}%`, // Allow off-screen start
+                x: `${Math.random() * 100 - 50}%`, 
                 y: `${Math.random() * 100 - 50}%`,
                 scale: 0.6,
               }}
               animate={{
                 x: [`${Math.random() * 100 - 50}%`, `${Math.random() * 100 - 50}%`],
                 y: [`${Math.random() * 100 - 50}%`, `${Math.random() * 100 - 50}%`],
-                scale: [0.7, 1.1, 0.7], // More subtle pulsing scale
-                opacity: [0.03, 0.1, 0.03], // Adjusted opacity
+                scale: [0.7, 1.1, 0.7], 
+                opacity: [0.03, 0.1, 0.03], 
               }}
               transition={{
-                duration: duration + 8, // Even Slower drift
+                duration: duration + 8, 
                 repeat: Infinity,
                 repeatType: "mirror",
                 ease: "easeInOut",
                 delay: delay,
               }}
               style={{
-                background: 'radial-gradient(circle, rgba(191,161,74,0.12) 0%, rgba(191,161,74,0) 65%)', // Softer gradient
+                background: 'radial-gradient(circle, rgba(191,161,74,0.12) 0%, rgba(191,161,74,0) 65%)', 
                 width: `${size}px`,
                 height: `${size}px`,
-                filter: 'blur(10px)' // Added blur for softer edges
+                filter: 'blur(10px)' 
               }}
             />
           );
         })}
         {/* Grid Pattern - slightly more subtle */}
         <div
-          className="absolute inset-0 opacity-[0.04]" // Further reduced opacity
+          className="absolute inset-0 opacity-[0.04]" 
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bfa14a' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
             backgroundSize: '30px 30px'
@@ -135,9 +135,9 @@ function Home() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25, ease: "circOut" }} // Adjusted delay and ease
+              transition={{ duration: 0.5, delay: 0.25, ease: "circOut" }} 
               className="inline-flex items-center gap-3 bg-white/5 rounded-2xl p-2 pr-4 backdrop-blur-lg
-                hover-lift hover-glow shadow-xl border border-white/10" // Enhanced styling
+                hover-lift hover-glow shadow-xl border border-white/10" 
             >
               <div className="bg-[#bfa14a] rounded-xl p-2.5 animate-pulse-ring shadow-md">
                 <FaDumbbell className="text-neutral-900 text-xl" />
@@ -151,10 +151,10 @@ function Home() {
                 {"Transform Your".split(" ").map((word, index) => (
                   <motion.span
                     key={index}
-                    initial={{ opacity: 0, y: 30 }} // Increased y offset
+                    initial={{ opacity: 0, y: 30 }} 
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.4 + index * 0.18, ease: "circOut" }} // Adjusted params
-                    className="inline-block mr-2 lg:mr-3" // Ensure space between words
+                    transition={{ duration: 0.7, delay: 0.4 + index * 0.18, ease: "circOut" }} 
+                    className="inline-block mr-2 lg:mr-3" 
                   >
                     {word}
                   </motion.span>
@@ -164,7 +164,7 @@ function Home() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 + "Transform Your".split(" ").length * 0.18, ease: "circOut" }}
-                  className="text-[#bfa14a] inline-block animate-gradient-shift bg-gradient-to-r from-[#bfa14a] via-[#f0d68c] to-[#c8a956] bg-clip-text text-transparent" // Adjusted gradient colors
+                  className="text-[#bfa14a] inline-block animate-gradient-shift bg-gradient-to-r from-[#bfa14a] via-[#f0d68c] to-[#c8a956] bg-clip-text text-transparent" 
                 >
                   Body & Mind
                 </motion.span>
@@ -172,8 +172,8 @@ function Home() {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.9, ease: "circOut" }} // Adjusted delay
-                className="text-lg md:text-xl text-neutral-300 max-w-xl lg:max-w-2xl leading-relaxed" // Increased max-width on lg
+                transition={{ duration: 0.7, delay: 0.9, ease: "circOut" }} 
+                className="text-lg md:text-xl text-neutral-300 max-w-xl lg:max-w-2xl leading-relaxed" 
               >
                 Join the ultimate fitness journey with state-of-the-art facilities and expert guidance. Your transformation starts here.
               </motion.p>
@@ -183,10 +183,10 @@ function Home() {
             <div className="flex flex-wrap gap-4 slide-in-left" style={{ animationDelay: '0.2s' }}>
               <motion.button
                 onClick={scrollToPricing}
-                whileHover={{ scale: 1.03, boxShadow: "0px 5px 25px rgba(191, 161, 74, 0.4)" }} // Adjusted hover effect
+                whileHover={{ scale: 1.03, boxShadow: "0px 5px 25px rgba(191, 161, 74, 0.4)" }} 
                 whileTap={{ scale: 0.97 }}
                 className="group relative px-8 py-4 bg-[#bfa14a] text-neutral-900 rounded-xl font-semibold
-                  overflow-hidden transition-all duration-300 shadow-lg hover-glow border-2 border-transparent hover:border-[#ffe599]" // Added border on hover
+                  overflow-hidden transition-all duration-300 shadow-lg hover-glow border-2 border-transparent hover:border-[#ffe599]" 
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Start Your Journey
@@ -197,15 +197,15 @@ function Home() {
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.03, borderColor: '#bfa14a' }} // Simpler hover for secondary
+                whileHover={{ scale: 1.03, borderColor: '#bfa14a' }} 
                 whileTap={{ scale: 0.97 }}
                 className="group px-8 py-4 rounded-xl font-semibold border-2 border-white/20 text-white
-                  transition-all duration-300 flex items-center gap-3 shadow-md hover-glow" // Added hover-glow
+                  transition-all duration-300 flex items-center gap-3 shadow-md hover-glow" 
               >
                 <motion.span
                   className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center
                   group-hover:bg-[#bfa14a]/20 transition-colors group-hover:animate-pulse-ring"
-                  // Removed whileHover from here as parent has it
+                  
                 >
                   <FaPlay className="text-[#bfa14a] text-sm ml-0.5 group-hover:text-white transition-colors" />
                 </motion.span>
@@ -224,10 +224,10 @@ function Home() {
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 40 }} // Increased y offset
+                  initial={{ opacity: 0, y: 40 }} 
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.0 + index * 0.2, ease: "circOut" }} // Adjusted delay and ease
-                  className="text-center hover-lift p-3 rounded-xl hover:bg-white/5 transition-colors duration-200" // Added hover bg
+                  transition={{ duration: 0.6, delay: 1.0 + index * 0.2, ease: "circOut" }} 
+                  className="text-center hover-lift p-3 rounded-xl hover:bg-white/5 transition-colors duration-200" 
                 >
                   <div className="text-3xl lg:text-4xl font-bold text-[#bfa14a] animate-gradient-shift
                     bg-gradient-to-r from-[#bfa14a] via-[#f0d68c] to-[#c8a956] bg-clip-text text-transparent mb-1.5"> {/* Adjusted gradient and margin */}
@@ -255,7 +255,7 @@ function Home() {
           >
             {cardImages.map((card, index) => {
               const numCards = cardImages.length;
-              const centerOffset = (index - (numCards - 1) / 2); // -1.5, -0.5, 0.5, 1.5 for 4 cards
+              const centerOffset = (index - (numCards - 1) / 2); 
 
               return (
                 <motion.div
@@ -265,18 +265,18 @@ function Home() {
                   animate={isFanned ? "fanned" : "stacked"}
                   variants={{
                     stacked: {
-                      x: centerOffset * 8, // Slight horizontal spread for stack
-                      y: centerOffset * -6, // Slight vertical spread for stack
-                      rotate: centerOffset * 2.5, // Slight rotation for stack
-                      scale: 1 - (numCards - 1 - index) * 0.04, // Bottom cards slightly smaller
-                      opacity: 1 - (numCards - 1 - index) * 0.15, // Fade out bottom cards
+                      x: centerOffset * 8, 
+                      y: centerOffset * -6, 
+                      rotate: centerOffset * 2.5, 
+                      scale: 1 - (numCards - 1 - index) * 0.04, 
+                      opacity: 1 - (numCards - 1 - index) * 0.15, 
                       zIndex: index,
                       boxShadow: "0px 3px 12px rgba(0,0,0,0.3)",
                     },
                     fanned: {
-                      x: centerOffset * 95, // Spread them out (adjust multiplier based on card width)
-                      y: -35, // Lift them up
-                      rotate: centerOffset * 16, // Fan rotation
+                      x: centerOffset * 95, 
+                      y: -35, 
+                      rotate: centerOffset * 16, 
                       scale: 1.03,
                       opacity: 1,
                       zIndex: numCards + index,
@@ -295,10 +295,10 @@ function Home() {
 
       {/* Enhanced Scroll Indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }} // Adjusted y
+        initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 1.4, ease: "circOut" }} // Adjusted delay
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2.5 animate-float" // Adjusted gap
+        transition={{ duration: 0.7, delay: 1.4, ease: "circOut" }} 
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2.5 animate-float" 
       >
         <div className="text-xs text-neutral-400 font-medium tracking-wider">SCROLL</div> {/* Changed text and styling */}
         <div className="w-5 h-8 rounded-full border-2 border-neutral-500/70 flex items-start justify-center p-1 hover-glow cursor-pointer" onClick={() => window.scrollTo({ top: window.innerHeight * 0.8, behavior: 'smooth' })}> {/* Added click to scroll */}

@@ -11,7 +11,7 @@ const socialIconMap = {
   youtube: FaYoutube
 };
 
-// Helper to display tags
+
 const Tag = ({ text }) => (
   <span className="px-3 py-1 text-xs rounded-full bg-[#CDAC5A]/15 text-[#CDAC5A] border border-[#CDAC5A]/30 font-medium whitespace-nowrap">
     {text}
@@ -21,12 +21,12 @@ const Tag = ({ text }) => (
 function TrainerModal({ trainer, onClose }) {
   if (!trainer) return null;
 
-  // Ensure specialties and expertise are arrays
+  
   const specialties = Array.isArray(trainer.specialty) ? trainer.specialty : (trainer.specialty ? [trainer.specialty] : []);
   const expertise = Array.isArray(trainer.expertise) ? trainer.expertise : (trainer.expertise ? [trainer.expertise] : []);
 
-  // Construct the full image URL
-  const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : `${import.meta.env.VITE_API_URL}/assets/images/Logo.png`; // Use backend URL for fallback too
+  
+  const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : `${import.meta.env.VITE_API_URL}/assets/images/Logo.png`; 
 
   return (
     <div
@@ -61,7 +61,7 @@ function TrainerModal({ trainer, onClose }) {
             <div className="md:col-span-1 space-y-6">
               <div className="aspect-square rounded-lg overflow-hidden border border-neutral-700 shadow-lg">
                 <img
-                  src={imageUrl} // Use the full URL
+                  src={imageUrl} 
                   alt={trainer.name}
                   className="w-full h-full object-cover"
                 />
@@ -90,12 +90,12 @@ function TrainerModal({ trainer, onClose }) {
                 {Object.entries(trainer.socialMedia || {}).map(([platform, url]) => {
                   if (!url) return null;
                   const Icon = socialIconMap[platform];
-                  if (!Icon) return null; // Handle cases where platform might not be in map
+                  if (!Icon) return null; 
                   
                   return (
                     <a
                       key={platform}
-                      href={url.startsWith('http') ? url : `https://${url}`} // Ensure URL is absolute
+                      href={url.startsWith('http') ? url : `https://${url}`} 
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-9 h-9 rounded-lg bg-neutral-700/60 text-neutral-400

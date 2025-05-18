@@ -10,8 +10,8 @@ function TrainerList({ trainers, onEdit, onDelete, onToggleStatus }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {trainers.map((trainer, index) => {
-        // Use import.meta.env.VITE_API_URL for image URLs
-        const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : '/assets/images/Logo.png'; // Keep fallback relative
+        
+        const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : '/assets/images/Logo.png'; 
 
         return (
           <motion.div
@@ -30,7 +30,7 @@ function TrainerList({ trainers, onEdit, onDelete, onToggleStatus }) {
                 <div className="relative">
                   <div className="w-20 h-20 rounded-xl overflow-hidden bg-neutral-700">
                     <img
-                      src={imageUrl} // Use the full URL
+                      src={imageUrl} 
                       alt={trainer.name}
                       className="w-full h-full object-cover transition-transform duration-700 
                         group-hover:scale-110"

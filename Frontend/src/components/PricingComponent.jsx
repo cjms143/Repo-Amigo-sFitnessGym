@@ -10,7 +10,7 @@ function PricingComponent({ plan, index, onChoosePlan, onViewAllFeatures }) {
   }
 
   const isPopular = plan.isPopular;
-    // Card animation variants
+    
   const cardVariants = {
     hidden: { opacity: 0, y: 50, scale: 0.95 },
     visible: {
@@ -20,11 +20,11 @@ function PricingComponent({ plan, index, onChoosePlan, onViewAllFeatures }) {
       transition: { 
         duration: 0.6, 
         delay: index * 0.15, 
-        ease: [0.22, 1, 0.36, 1] // Custom ease curve for smoother motion
+        ease: [0.22, 1, 0.36, 1] 
       }
     },
     hover: { 
-      y: -5, // Reduced hover lift for more stable effect
+      y: -5, 
       boxShadow: isPopular ? "0 20px 40px -12px rgba(251, 191, 36, 0.25)" : "0 20px 40px -12px rgba(0, 0, 0, 0.25)",
       transition: { duration: 0.4, ease: "easeOut" }
     }

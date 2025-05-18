@@ -4,7 +4,7 @@ import { FaSpinner, FaExclamationTriangle, FaDumbbell } from 'react-icons/fa';
 import PricingComponent from '../components/PricingComponent';
 import Appointment from '../components/Appointment';
 import AllFeaturesModal from '../components/AllFeaturesModal';
-import '../styles/animations.css'; // Ensure animations CSS is imported
+import '../styles/animations.css'; 
 
 function Pricing() {
   const containerRef = useRef(null);
@@ -13,23 +13,23 @@ function Pricing() {
     offset: ["start start", "end start"]
   });
 
-  // Parallax for background elements
+  
   const yBg = useTransform(scrollYProgress, [0, 1], [0, 100]); 
   const opacityBg = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
 
-  // Refs and scroll progress for the new image section
+  
   const imageSectionRef = useRef(null);
   const { scrollYProgress: scrollYProgressImageSection } = useScroll({
     target: imageSectionRef,
-    offset: ["start end", "end start"] // Trigger when section starts entering/leaving viewport
+    offset: ["start end", "end start"] 
   });
 
-  // Parallax and animation for the new image section's background
-  const imageY = useTransform(scrollYProgressImageSection, [0, 1], ["-15%", "15%"]); // Image moves slower than scroll
-  const imageOpacity = useTransform(scrollYProgressImageSection, [0, 0.3, 0.7, 1], [0, 1, 1, 0]); // Fade in, stay, fade out
+  
+  const imageY = useTransform(scrollYProgressImageSection, [0, 1], ["-15%", "15%"]); 
+  const imageOpacity = useTransform(scrollYProgressImageSection, [0, 0.3, 0.7, 1], [0, 1, 1, 0]); 
 
-  // Animation for the text content over the image
-  const textOpacity = useTransform(scrollYProgressImageSection, [0.2, 0.5, 0.8], [0, 1, 0]); // Fade in and out centered
+  
+  const textOpacity = useTransform(scrollYProgressImageSection, [0.2, 0.5, 0.8], [0, 1, 0]); 
   const textY = useTransform(scrollYProgressImageSection, [0.2, 0.5, 0.8], ["40px", "0px", "-40px"]);
 
   const [plans, setPlans] = useState([]);
@@ -44,15 +44,15 @@ function Pricing() {
   useEffect(() => {
     const fetchPlans = async () => {
       setLoading(true);
-      setError(null); // Reset error before fetching
+      setError(null); 
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/pricing/plans`); // MODIFIED
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/pricing/plans`); 
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || 'Failed to fetch plans. Please try again later.');
         }
         const data = await response.json();
-        // Filter for active plans only
+        
         const activePlans = Array.isArray(data) ? data.filter(plan => plan.active) : [];
         setPlans(activePlans);
       } catch (err) {
@@ -196,18 +196,18 @@ function Pricing() {
               </button>
             </div>
           ) : Array.isArray(plans) && plans.length > 0 ? (
-            // plans.map is now directly rendering motion.divs as children of the modified parent div
+            
             plans.map((plan, index) => (
               <motion.div
                 key={plan._id || index}
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.15, duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-                className="flex-shrink-0 m-2.5 flex" // Added flex here to make motion.div a flex container for PricingComponent if needed, or ensure it stretches
+                className="flex-shrink-0 m-2.5 flex" 
               >
                 <PricingComponent
                   plan={plan}
-                  index={index} // Pass index for card's internal animation if needed
+                  index={index} 
                   onChoosePlan={handlePlanSelection}
                   onViewAllFeatures={() => showAllFeatures(plan.features, plan.title)}
                 />
@@ -232,16 +232,16 @@ function Pricing() {
           className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-center"
           style={{
             backgroundImage: `url('/assets/images/PricingBG.jpg')`,
-            y: imageY, // Apply parallax Y
-            opacity: imageOpacity, // Apply fade in/out opacity
-            scale: 1.1 // Slightly zoomed in to allow for parallax movement without showing edges
+            y: imageY, 
+            opacity: imageOpacity, 
+            scale: 1.1 
           }}
         />
         <div className="absolute inset-0 bg-black/60 z-10"></div> {/* Darker Overlay for better text contrast */}
         
         <motion.div 
           className="relative z-20 text-center px-6 max-w-3xl mx-auto"
-          style={{ opacity: textOpacity, y: textY }} // Apply animations to text block
+          style={{ opacity: textOpacity, y: textY }} 
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6">
             Invest in <span className="text-[#bfa14a] animate-gradient-shift bg-gradient-to-r from-[#bfa14a] via-[#f0d68c] to-[#c8a956] bg-clip-text text-transparent">Your Future Fitness</span>
@@ -253,7 +253,7 @@ function Pricing() {
             whileHover={{ scale: 1.05, boxShadow: "0px 0px 25px rgba(191, 161, 74, 0.6)" }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
-              const pricingSection = document.getElementById('pricing'); // Assuming the main pricing plans are in a section with id 'pricing'
+              const pricingSection = document.getElementById('pricing'); 
               pricingSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
             className="px-10 py-4 bg-gradient-to-r from-[#bfa14a] to-[#d4b65e] text-neutral-900 rounded-xl font-semibold 
@@ -261,7 +261,7 @@ function Pricing() {
           >
             Review Our Plans
           </motion.button>
-        </motion.div>
+        </motion.div> 
       </motion.section>
 
       {/* Modals */}

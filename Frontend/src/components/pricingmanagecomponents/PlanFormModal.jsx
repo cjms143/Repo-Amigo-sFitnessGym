@@ -17,18 +17,18 @@ function PlanFormModal({
 
   const handlePriceChange = (e) => {
     const newPrice = e.target.value;
-    // Allow empty string for user input, but store as 0 or valid number
+    
     setFormData({ ...formData, price: newPrice === '' ? '' : Number(newPrice) });
   };
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    // Ensure price is a number before submitting, default to 0 if empty or invalid
+    
     const submissionData = {
       ...formData,
       price: parseFloat(formData.price) || 0
     };
-    handleSubmit(e, submissionData); // Pass the modified submissionData
+    handleSubmit(e, submissionData); 
   };
 
 
@@ -107,8 +107,8 @@ function PlanFormModal({
                       type="number"
                       min="0"
                       step="0.01"
-                      value={formData.price} // Directly use formData.price
-                      onChange={handlePriceChange} // Use the new handler
+                      value={formData.price} 
+                      onChange={handlePriceChange} 
                       placeholder={`Enter ${formData.type} price`}
                       className="w-full bg-neutral-700/50 border border-neutral-600 rounded-lg pl-10 pr-4 py-2.5
                         text-white focus:outline-none focus:ring-2 focus:ring-[#bfa14a] focus:border-[#bfa14a] transition-all"
@@ -208,7 +208,7 @@ function PlanFormModal({
                   <div className="flex items-center gap-3 p-3 bg-neutral-700/30 border border-neutral-600/50 rounded-lg">
                     <input
                       type="checkbox"
-                      id="isPopularModal" // Changed id to avoid conflict
+                      id="isPopularModal" 
                       checked={formData.isPopular}
                       onChange={(e) => setFormData({ ...formData, isPopular: e.target.checked })}
                       className="w-5 h-5 rounded border-neutral-500 bg-neutral-600 text-[#bfa14a]
@@ -221,7 +221,7 @@ function PlanFormModal({
                   <div className="flex items-center gap-3 p-3 bg-neutral-700/30 border border-neutral-600/50 rounded-lg">
                     <input
                       type="checkbox"
-                      id="activeModal" // Changed id to avoid conflict
+                      id="activeModal" 
                       checked={formData.active}
                       onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
                       className="w-5 h-5 rounded border-neutral-500 bg-neutral-600 text-[#bfa14a]

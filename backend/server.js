@@ -33,7 +33,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/pricing', require('./routes/pricing'));
 app.use('/api/trainers', require('./routes/trainers'));
-app.use('/api/appointments', require('./routes/appointments')); // Add appointments routes
+app.use('/api/appointments', require('./routes/appointments')); 
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {

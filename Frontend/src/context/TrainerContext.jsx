@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
-// Helper function to convert data URL to Blob
+
 function dataURLtoBlob(dataurl) {
   if (!dataurl) return null;
   try {
@@ -16,7 +16,7 @@ function dataURLtoBlob(dataurl) {
     while(n--){
         u8arr[n] = bstr.charCodeAt(n);
     }
-    // Extract filename or use a default
+    
     const filename = `profile.${mime.split('/')[1] || 'jpg'}`;
     return new File([u8arr], filename, {type:mime});
   } catch (e) {
@@ -35,7 +35,7 @@ export const TrainerProvider = ({ children }) => {
 
   const fetchTrainers = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers`); // MODIFIED
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers`); 
       if (!response.ok) throw new Error('Failed to fetch trainers');
       const data = await response.json();
       setAllTrainers(data);
@@ -54,7 +54,7 @@ export const TrainerProvider = ({ children }) => {
 
   const addTrainer = async (trainerData) => {
     try {
-      // Validate required fields
+      
       const requiredFields = ['name', 'email', 'phone', 'specialty', 'experience', 'bio'];
       const missingFields = requiredFields.filter(field => !trainerData[field]);
       
@@ -64,24 +64,24 @@ export const TrainerProvider = ({ children }) => {
 
       const formData = new FormData();
 
-      // Append image if present
+      
       const imageBlob = dataURLtoBlob(trainerData.img);
       if (imageBlob) {
         formData.append('img', imageBlob);
       } else if (trainerData.img === null || trainerData.img === '') {
-        // Handle case where image might be explicitly removed (send empty string or handle on backend)
-        // If your backend expects something specific for removal, adjust here.
-        // formData.append('img', ''); // Example: Send empty if backend handles it
+        
+        
+        
       }
 
-      // Append other data fields (ensure complex objects like arrays/objects are stringified if backend expects strings)
+      
       Object.keys(trainerData).forEach(key => {
-        if (key !== 'img') { // Don't append the original base64 image string
+        if (key !== 'img') { 
           const value = trainerData[key];
           if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
-            // Stringify arrays/objects if the backend expects them as strings in FormData
-            // If the backend can parse JSON strings within FormData, this is fine.
-            // If the backend expects arrays like field[]=value1&field[]=value2, you need to append differently.
+            
+            
+            
             formData.append(key, JSON.stringify(value));
           } else if (value !== undefined && value !== null) {
             formData.append(key, value);
@@ -89,32 +89,32 @@ export const TrainerProvider = ({ children }) => {
         }
       });
 
-      // Add default fields if they aren't already in trainerData
+      
       if (!formData.has('active')) formData.append('active', 'true');
       if (!formData.has('status')) formData.append('status', 'Available');
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers`, { // MODIFIED
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers`, { 
         method: 'POST',
         headers: {
-          // 'Content-Type': 'application/json', // REMOVE THIS - Browser sets it for FormData
+          
           Authorization: `Bearer ${token}`
         },
-        body: formData // Send FormData object
+        body: formData 
       });
       
       if (!response.ok) {
-        let errorData = { message: 'Failed to add trainer' }; // Default error
+        let errorData = { message: 'Failed to add trainer' }; 
         try {
-          // Try to parse the JSON error response from the backend
+          
           errorData = await response.json();
-          console.error('Server error response:', errorData); // Log the full server error
+          console.error('Server error response:', errorData); 
         } catch (parseError) {
-          // If parsing fails, log the raw response text
+          
           const errorText = await response.text();
           console.error('Server error response (non-JSON):', errorText);
-          errorData.message = `Server returned status ${response.status}: ${errorText.substring(0, 100)}...`; // Use status and snippet
+          errorData.message = `Server returned status ${response.status}: ${errorText.substring(0, 100)}...`; 
         }
-        // Throw an error with the server message or the default/parsed one
+        
         throw new Error(errorData.message || 'Failed to add trainer');
       }
       
@@ -122,8 +122,8 @@ export const TrainerProvider = ({ children }) => {
       setAllTrainers(prev => [...prev, newTrainer]);
       return newTrainer;
     } catch (error) {
-      console.error('Error adding trainer:', error); // Keep this log
-      // Re-throw the error so the component calling addTrainer knows it failed
+      console.error('Error adding trainer:', error); 
+      
       throw error; 
     }
   };
@@ -132,23 +132,23 @@ export const TrainerProvider = ({ children }) => {
     try {
       const formData = new FormData();
 
-      // Append image if present and potentially changed
-      // Check if img is a new base64 string (indicating upload)
+      
+      
       if (trainerData.img && typeof trainerData.img === 'string' && trainerData.img.startsWith('data:image')) {
         const imageBlob = dataURLtoBlob(trainerData.img);
         if (imageBlob) {
           formData.append('img', imageBlob);
         }
       } else if (trainerData.img === null) {
-         // Handle explicit image removal if needed by backend
-         // formData.append('img', ''); // Example
+         
+         
       }
-      // Note: If trainerData.img is an existing URL (string but not base64), we don't append it,
-      // assuming no change unless a new base64 string is provided.
+      
+      
 
-      // Append other data fields
+      
       Object.keys(trainerData).forEach(key => {
-        if (key !== 'img') { // Don't append img unless it was processed above
+        if (key !== 'img') { 
           const value = trainerData[key];
            if (Array.isArray(value) || (typeof value === 'object' && value !== null)) {
              formData.append(key, JSON.stringify(value));
@@ -158,13 +158,13 @@ export const TrainerProvider = ({ children }) => {
         }
       });
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}`, { // MODIFIED
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}`, { 
         method: 'PUT',
         headers: {
-          // 'Content-Type': 'application/json', // REMOVE THIS
+          
           Authorization: `Bearer ${token}`
         },
-        body: formData // Send FormData object
+        body: formData 
       });
       
       if (!response.ok) {
@@ -185,7 +185,7 @@ export const TrainerProvider = ({ children }) => {
 
   const toggleTrainerStatus = async (id) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}/toggle-status`, { // MODIFIED
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}/toggle-status`, { 
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`
@@ -210,7 +210,7 @@ export const TrainerProvider = ({ children }) => {
 
   const deleteTrainer = async (id) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}`, { // MODIFIED
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/trainers/${id}`, { 
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`

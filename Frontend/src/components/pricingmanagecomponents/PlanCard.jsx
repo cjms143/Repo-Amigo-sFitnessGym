@@ -119,7 +119,7 @@ function PlanCard({
       {/* Plan Stats */}
       <div className="mt-auto pt-5 border-t border-neutral-700/50">
         <div className="grid grid-cols-3 gap-2 text-center text-xs">
-          {[ // Ensure metadata exists and provide defaults
+          {[ 
             { label: 'Views', value: plan.metadata?.views || 0 },
             { label: 'Subscribers', value: plan.metadata?.subscriptions || 0 },
             { label: 'Conv. Rate', value: `${((plan.metadata?.conversionRate || 0) * 100).toFixed(1)}%` }

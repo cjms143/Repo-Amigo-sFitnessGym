@@ -45,15 +45,15 @@ const AdminAuth = () => {
     if (!validateForm()) return;
 
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL; // ADDED
+      const API_BASE_URL = import.meta.env.VITE_API_URL; 
       if (isLogin) {
-        await login(formData.username, formData.password); // login function in AuthContext should handle prepending API_BASE_URL
+        await login(formData.username, formData.password); 
       } else {
-        await register(formData.username, formData.email, formData.password, formData.secretKey); // register function in AuthContext should handle prepending API_BASE_URL
+        await register(formData.username, formData.email, formData.password, formData.secretKey); 
       }
-      navigate('/admin'); // Changed from '/admin/dashboard'
+      navigate('/admin'); 
     } catch (err) {
-      // Error is handled by the context
+      
       console.error('Authentication error:', err);
     }
   };
