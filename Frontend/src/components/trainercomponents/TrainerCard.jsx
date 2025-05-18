@@ -31,8 +31,12 @@ function TrainerCard({ trainer, index, onViewProfile }) {
   const specialtiesDisplay = formatSpecialties(trainer.specialty);
   
   const imagePath = trainer.img || '';
+  let baseUrl = import.meta.env.VITE_API_URL;
+  if (!baseUrl || baseUrl === '/' || baseUrl === '') {
+    baseUrl = window.location.origin;
+  }
   const imageUrl = imagePath
-    ? `${import.meta.env.VITE_API_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`
+    ? `${baseUrl}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`
     : null;
 
   return (
@@ -72,11 +76,18 @@ function TrainerCard({ trainer, index, onViewProfile }) {
       <div className="p-5 flex-grow flex flex-col justify-between">
         <div>
           <h3 className="text-xl font-semibold text-white mb-1 truncate">{trainer.name}</h3>
-          {/* Updated Specialty Display */}
-          <p className="text-sm text-[#bfa14a] font-medium mb-3 truncate" title={Array.isArray(trainer.specialty) ? trainer.specialty.join(', ') : ''}>
-            {specialtiesDisplay}
-            {Array.isArray(trainer.specialty) && trainer.specialty.length > 3 ? '...' : ''}
-          </p>
+          {/* Specialties as tags */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {Array.isArray(trainer.specialty) && trainer.specialty.length > 0
+              ? trainer.specialty.slice(0, 3).map((spec, i) => (
+                  <span key={i} className="px-2 py-1 bg-[#bfa14a]/10 text-[#bfa14a] rounded-full text-xs font-medium border border-[#bfa14a]/30 whitespace-nowrap">{spec}</span>
+                ))
+              : <span className="text-neutral-400 text-xs">No specialties set</span>
+            }
+            {Array.isArray(trainer.specialty) && trainer.specialty.length > 3 && (
+              <span className="text-[#bfa14a] text-xs">+{trainer.specialty.length - 3} more</span>
+            )}
+          </div>
           <p className="text-neutral-400 text-sm mb-4 line-clamp-3">
             {trainer.bio || 'Experienced trainer dedicated to helping you achieve your fitness goals.'}
           </p>

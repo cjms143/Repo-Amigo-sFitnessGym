@@ -50,7 +50,21 @@ function TrainerList({ trainers, onEdit, onDelete, onToggleStatus }) {
                   <h3 className="text-xl font-bold text-white group-hover:text-[#bfa14a] transition-colors">
                     {trainer.name}
                   </h3>
-                  <p className="text-neutral-400 text-sm mb-2">{trainer.specialty}</p>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {Array.isArray(trainer.specialty) && trainer.specialty.length > 0
+                      ? trainer.specialty.map((spec, i) => (
+                          <span key={i} className="px-2 py-1 bg-[#bfa14a]/10 text-[#bfa14a] rounded-full text-xs font-medium border border-[#bfa14a]/30 whitespace-nowrap">{spec}</span>
+                        ))
+                      : <span className="text-neutral-400 text-xs">No specialties set</span>
+                    }
+                  </div>
+                  {Array.isArray(trainer.expertise) && trainer.expertise.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {trainer.expertise.map((exp, i) => (
+                        <span key={i} className="px-2 py-1 bg-green-500/10 text-green-400 rounded-full text-xs font-medium border border-green-400/30 whitespace-nowrap">{exp}</span>
+                      ))}
+                    </div>
+                  )}
                   <div className="flex items-center gap-2 text-sm">
                     <span className="px-2 py-1 rounded-md bg-[#bfa14a]/10 text-[#bfa14a]">
                       {trainer.experience || '0'} Years Exp.

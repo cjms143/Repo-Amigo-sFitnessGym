@@ -81,8 +81,8 @@ function PlanCard({
 
       <div className="mb-6">
         <div className="flex items-baseline gap-1.5 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500 mb-1">
-          <span className="text-2xl text-amber-400/80 self-center">₱</span> {/* Replaced FaDollarSign with ₱ and adjusted styling */}
-          {getPriceDisplay()}
+          <span className="text-2xl text-amber-400/80 self-center">₱</span> {/* Currency symbol */}
+          <span className="plan-card-price">{getPriceDisplay()}</span>
           <span className="text-base text-neutral-400 font-normal">/{plan.type}</span>
         </div>
         {plan.description && (

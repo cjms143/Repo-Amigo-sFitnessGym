@@ -16,9 +16,15 @@ function PlanFormModal({
   if (!isModalOpen) return null;
 
   const handlePriceChange = (e) => {
-    const newPrice = e.target.value;
-    
-    setFormData({ ...formData, price: newPrice === '' ? '' : Number(newPrice) });
+    const raw = e.target.value;
+    // Only allow up to 6 digits before the decimal point
+    const [intPart, decPart] = raw.split('.');
+    if (intPart && intPart.length > 6) {
+      // Ignore input if integer part exceeds 6 digits
+      return;
+    }
+    let num = raw === '' ? '' : Number(raw);
+    setFormData({ ...formData, price: num });
   };
 
   const onFormSubmit = (e) => {
@@ -100,21 +106,25 @@ function PlanFormModal({
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-neutral-400">₱</span> {/* Replaced FaDollarSign with ₱ */}
+                      <span className="text-neutral-400">₱</span>
                     </div>
                     <input
                       id="planPriceModal"
                       type="number"
                       min="0"
+                      max="999999"
                       step="0.01"
-                      value={formData.price} 
-                      onChange={handlePriceChange} 
+                      value={formData.price}
+                      onChange={handlePriceChange}
                       placeholder={`Enter ${formData.type} price`}
                       className="w-full bg-neutral-700/50 border border-neutral-600 rounded-lg pl-10 pr-4 py-2.5
                         text-white focus:outline-none focus:ring-2 focus:ring-[#bfa14a] focus:border-[#bfa14a] transition-all"
                       required
                     />
                   </div>
+                 {formData.price > 999999 && (
+                  <p className="text-red-400 text-sm mt-1">Maximum price is ₱999,999</p>
+                 )}
                 </div>
 
                 {/* Description */}
