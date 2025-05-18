@@ -310,7 +310,13 @@ function TrainerForm({
   };
 
   // Helper to determine the correct image source URL
-  const getImageUrl = (imgData) => imgData ? `${import.meta.env.VITE_API_URL}${imgData}` : undefined;
+  const getImageUrl = (imgData) => {
+    if (!imgData) return undefined;
+    // If it's a base64 string (new upload), use as is
+    if (typeof imgData === 'string' && imgData.startsWith('data:image')) return imgData;
+    // Otherwise, treat as backend path (ensure single slash)
+    return `${import.meta.env.VITE_API_URL}${imgData.startsWith('/') ? '' : '/'}${imgData}`;
+  };
 
   return (
     // Added form title and slightly adjusted padding/margins

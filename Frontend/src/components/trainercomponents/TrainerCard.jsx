@@ -29,8 +29,11 @@ function TrainerCard({ trainer, index, onViewProfile }) {
   };
 
   const specialtiesDisplay = formatSpecialties(trainer.specialty);
-  // Construct the full image URL for the trainer
-  const imageUrl = trainer.img ? `${import.meta.env.VITE_API_URL}${trainer.img}` : null;
+  // Construct the full image URL for the trainer (ensure single slash)
+  const imagePath = trainer.img || '';
+  const imageUrl = imagePath
+    ? `${import.meta.env.VITE_API_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`
+    : null;
 
   return (
     <motion.div
