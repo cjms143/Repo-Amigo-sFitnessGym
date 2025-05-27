@@ -50,7 +50,7 @@ function Services() {
     ],
     classes: [
       {
-        title: 'Tabata',
+        title: 'Tabata Classes',
         description: 'High-intensity interval training for maximum results.',
         icon: '/assets/images/tabataclass.png',
         features: ['20/10 intervals', 'Fat burning', 'Metabolic boost']
@@ -62,7 +62,7 @@ function Services() {
         features: ['Movement patterns', 'Core strength', 'Balance training']
       },
       {
-        title: 'Zumba',
+        title: 'Zumba Classes',
         description: 'Fun, dance-based cardio workouts set to energetic music.',
         icon: '/assets/images/zumbaclass.png',
         features: ['Dance fitness', 'Cardio boost', 'Mood elevation']
